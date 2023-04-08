@@ -1,0 +1,78 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  z-index: 3;
+  height: 5rem;
+  width: 100%;
+  background-color: black;
+  margin-bottom: 2rem;
+}
+.searchWrapper {
+  flex-basis: 33.33%;
+}
+.headerAuth {
+  justify-content: center;
+}
+/* .logoarea {
+  width: 33.3%;
+} */
+.logo {
+  font-weight: 600;
+  font-size: 1.5rem;
+  color: #fff;
+  flex-basis: 33.33%;
+}
+.logo_auth {
+  flex-basis: 50%;
+}
+
+.navarea {
+  flex-basis: 33.33%;
+}
+.navarea_auth {
+  flex-basis: 50%;
+}
+.navarea_auth a {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+.navarea ul {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+.navarea ul li {
+  list-style: none;
+}
+.navarea li + li {
+  padding-left: 2rem;
+}
+
+.navarea a.active {
+  color: #e56b01;
+}
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  font-family: "Sofia Sans Semi Condensed", sans-serif;
+  text-align: right;
+  background: none;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  color: white;
+  cursor: pointer;
+  font-size: medium;
+}
+.button:hover {
+  color: #e56b01;
+}

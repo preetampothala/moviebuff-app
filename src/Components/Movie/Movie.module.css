@@ -1,0 +1,58 @@
+.checked {
+  color: #ff6d00;
+  margin-right: 0.5rem;
+}
+.castposterimg {
+  width: 13.2rem;
+  height: 15.2rem;
+  margin-right: 1.5rem;
+}
+.movie_detail {
+  display: flex;
+  flex-direction: column;
+}
+.movie_detail_top {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.movie_detail_poster {
+  width: 20rem;
+  height: 30rem;
+}
+.movie_detail_content {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+.sTitle {
+  margin-top: 1.5rem;
+  margin-bottom: 0.7rem;
+}
+.movie_detail_right {
+  width: 15%;
+}
+.movie_detail_left {
+  width: 70%;
+}
+.moviebottom_detail_right {
+  width: 40%;
+}
+.moviebottom_detail_left {
+  width: 50%;
+}
+.reviewcontent {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+.authorname {
+  color: #ff6d00;
+}
+iframe {
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  border-radius: 0.3rem;
+  border: #212020 0.1rem solid;
+}

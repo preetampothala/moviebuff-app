@@ -1,0 +1,384 @@
+import React from "react";
+import MoviePoster from "../MoviePoster/MoviePoster";
+
+function MovieCarouselView({ title, movies, onAddToWatchlist }) {
+  return (
+    <div className="movie-side-scroll">
+      <h2>{title}</h2>
+      <div className="movie-posters">
+        {movies.map((movie) => (
+          <MoviePoster
+            key={movie.id}
+            movie={movie}
+            onAddToWatchlist={onAddToWatchlist}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default MovieCarouselView;
+
+import React from "react";
+import MoviePoster from "../MoviePoster/MoviePoster";
+import styles from "./MovieCarouselView.module.css";
+
+function MovieCarouselView({ title, movies, onAddToWatchlist }) {
+  return (
+    <div className={styles.movieSideScroll}>
+      <h2>{title}</h2>
+      <div className={styles.carouselNav}>
+        <button
+          className={styles.carouselNavButton}
+          disabled={scrollLeft === 0}
+          onClick={() => handleScroll(-1)}
+        >
+          &lt;
+        </button>
+        <button
+          className={styles.carouselNavButton}
+          disabled={scrollLeft >= maxScrollLeft}
+          onClick={() => handleScroll(1)}
+        >
+          &gt;
+        </button>
+      </div>
+      <div className={styles.moviePosters}>
+        {movies.map((movie) => (
+          <MoviePoster
+            key={movie.id}
+            movie={movie}
+            onAddToWatchlist={onAddToWatchlist}
+            className={styles.moviePoster}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default MovieCarouselView;
+
+import React, { useState, useRef } from "react";
+import MoviePoster from "../MoviePoster/MoviePoster";
+import classes from "./MovieCarouselView.module.css";
+
+function MovieCarouselView({ title, movies, onAddToWatchlist }) {
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const carouselRef = useRef(null);
+
+  const scrollLeft = () => {
+    if (carouselRef.current) {
+      carouselRef.current.scrollBy({
+        left: -200,
+        behavior: "smooth",
+      });
+      setScrollPosition(carouselRef.current.scrollLeft - 200);
+    }
+  };
+
+  const scrollRight = () => {
+    if (carouselRef.current) {
+      carouselRef.current.scrollBy({
+        left: 200,
+        behavior: "smooth",
+      });
+      setScrollPosition(carouselRef.current.scrollLeft + 200);
+    }
+  };
+
+  return (
+    <div className="movie-side-scroll">
+      <div className="carousel-nav">
+        <button
+          className="carousel-nav-button"
+          disabled={scrollPosition <= 0}
+          onClick={scrollLeft}
+        >
+          &lt;
+        </button>
+        <h2>{title}</h2>
+        <button
+          className="carousel-nav-button"
+          disabled={
+            scrollPosition >=
+            carouselRef.current?.scrollWidth - carouselRef.current?.offsetWidth
+          }
+          onClick={scrollRight}
+        >
+          &gt;
+        </button>
+      </div>
+      <div className="movie-posters" ref={carouselRef}>
+        {movies.map((movie) => (
+          <MoviePoster
+            key={movie.id}
+            movie={movie}
+            onAddToWatchlist={onAddToWatchlist}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default MovieCarouselView;
+-------------------------------------
+import React, { useRef } from "react";
+import MoviePoster from "../MoviePoster/MoviePoster";
+import styles from "./MovieCarouselView.module.css";
+
+function MovieCarouselView({ title, movies, onAddToWatchlist }) {
+  const scrollRef = useRef(null);
+  const handleScroll = (direction) => {
+    const container = scrollRef.current;
+    const scrollDistance = 400;
+    container.scrollTo({
+      left: container.scrollLeft + direction * scrollDistance,
+      behavior: "smooth",
+    });
+  };
+  const scrollLeft = scrollRef.current ? scrollRef.current.scrollLeft : 0;
+  const maxScrollLeft =
+    scrollRef.current &&
+    scrollRef.current.scrollWidth - scrollRef.current.clientWidth;
+
+  return (
+    <div className={styles.movie_side_scroll}>
+      <h2>{title}</h2>
+      <div className={styles.carousel_nav}>
+        <button
+          className={styles.carousel_nav_button}
+          disabled={scrollLeft === 0}
+          onClick={() => handleScroll(-1)}
+        >
+          &lt;
+        </button>
+        <button
+          className={styles.carousel_nav_button}
+          disabled={scrollLeft >= maxScrollLeft}
+          onClick={() => handleScroll(1)}
+        >
+          &gt;
+        </button>
+      </div>
+      <div className={styles.movie_posters} ref={scrollRef}>
+        {movies.map((movie) => (
+          <MoviePoster
+            key={movie.id}
+            movie={movie}
+            onAddToWatchlist={onAddToWatchlist}
+            className={styles.movie_poster}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default MovieCarouselView;
+
+
+.movie_side_scroll {
+  margin-bottom: 40px;
+}
+
+.carousel_nav {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.carousel_nav_button {
+  width: 48px;
+  height: 48px;
+  border: none;
+  background-color: #000;
+  color: #fff;
+  font-size: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  margin-right: 16px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.carousel_nav_button:hover {
+  background-color: #fff;
+  color: #000;
+}
+
+.carousel_nav_button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.movie_posters {
+  display: flex;
+  overflow-x: scroll;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  margin-right: -16px;
+}
+.movie_posters::-webkit-scrollbar {
+  display: none;
+}
+
+.movie_poster {
+  flex-shrink: 0;
+  margin-right: 16px;
+  scroll-snap-align: center;
+}
+-----------------------
+
+// import "./App.css";
+// import {
+//   BrowserRouter as Router,
+//   Redirect,
+//   Route,
+//   Switch,
+//   Navigate,
+// } from "react-router-dom";
+// import Home from "./Pages/Home";
+// import Layout from "./Components/Layout/Layout";
+// import MyLists from "./Pages/MyLists";
+// import Plists from "./Pages/Plists";
+// import MovieDetail from "./Pages/MovieDetail";
+// import SearchResults from "./Pages/SearchResults";
+// import CreateWatchlist from "./Pages/CreateWatchlist";
+// import Login from "./Pages/Login";
+
+// function App() {
+//   const onAddWatchlist = (watchlist) => {
+//     console.log("onAddWatchlist");
+//     console.log(watchlist);
+//   };
+//   const isAuthenticated = true;
+//   const AuthWrapper = ({ isAuthenticated }) => {
+//     return isAuthenticated ? (
+//       <Navigate to="/" replace />
+//     ) : (
+//       <Navigate to="/login" replace />
+//     );
+//   };
+//   return (
+//     <Router>
+//       <Route
+//         path="/"
+//         element={<AuthWrapper isAuthenticated={isAuthenticated} />}
+//       />
+//       <Route path="/login" exact>
+//         <Login />
+//       </Route>
+//       <Layout>
+//         <Switch>
+//           <Route path="/" exact>
+//             <Redirect to="/home" />
+//           </Route>
+//           <Route path="/home" exact>
+//             <Home />
+//           </Route>
+//           <Route path="/mylists" exact>
+//             <MyLists />
+//           </Route>
+//           <Route path="/plists" exact>
+//             <Plists />
+//           </Route>
+//           <Route path="/movies/:movieId">
+//             <MovieDetail />
+//           </Route>
+//           <Route path="/searchresults/:searchquery">
+//             <SearchResults />
+//           </Route>
+//           <Route path="/createwatchlist" exact>
+//             <CreateWatchlist onAddWatch={onAddWatchlist} />
+//           </Route>
+//         </Switch>
+//       </Layout>
+//     </Router>
+//   );
+// }
+
+// export default App;
+
+import "./App.css";
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  Switch,
+  Navigate,
+} from "react-router-dom";
+import { useState } from "react"; // import the useState hook
+import Home from "./Pages/Home";
+import Layout from "./Components/Layout/Layout";
+import MyLists from "./Pages/MyLists";
+import Plists from "./Pages/Plists";
+import MovieDetail from "./Pages/MovieDetail";
+import SearchResults from "./Pages/SearchResults";
+import CreateWatchlist from "./Pages/CreateWatchlist";
+import Login from "./Pages/Login";
+
+function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // initialize the state with false
+
+  const onLogin = () => {
+    setIsLoggedIn(true); // set the state to true when the user logs in
+  };
+
+  const onAddWatchlist = (watchlist) => {
+    console.log("onAddWatchlist");
+    console.log(watchlist);
+  };
+
+  const AuthWrapper = ({ isLoggedIn }) => {
+    return isLoggedIn ? (
+      <Route to="/" replace />
+    ) : (
+      <Route to="/login" replace />
+    );
+  };
+
+  return (
+    <Router>
+      <Switch>
+        <Route path="/" element={<AuthWrapper isLoggedIn={isLoggedIn} />} />
+        <Route path="/login" exact>
+          <Login onLogin={onLogin} />
+        </Route>
+      </Switch>
+      <Layout>
+        <Switch>
+          <Route path="/" exact>
+            {isLoggedIn ? <Home /> : <Redirect to="/login" />}
+          </Route>
+          <Route path="/mylists" exact>
+            {isLoggedIn ? <MyLists /> : <Redirect to="/login" />}
+          </Route>
+          <Route path="/plists" exact>
+            {isLoggedIn ? <Plists /> : <Redirect to="/login" />}
+          </Route>
+          <Route path="/movies/:movieId">
+            {isLoggedIn ? <MovieDetail /> : <Redirect to="/login" />}
+          </Route>
+          <Route path="/searchresults/:searchquery">
+            {isLoggedIn ? <SearchResults /> : <Redirect to="/login" />}
+          </Route>
+          <Route path="/createwatchlist" exact>
+            {isLoggedIn ? (
+              <CreateWatchlist onAddWatch={onAddWatchlist} />
+            ) : (
+              <Redirect to="/login" />
+            )}
+          </Route>
+        </Switch>
+      </Layout>
+    </Router>
+  );
+}
+
+export default App;

@@ -1,0 +1,27 @@
+.content {
+  overflow: show;
+  display: -webkit-box;
+  /* Line height should be specified for proper truncation */
+}
+
+.truncated {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+.button {
+  background: none;
+  margin: 1rem 0;
+  cursor: pointer;
+  color: white;
+}
+.button:hover {
+  color: #ff6d00;
+}
+/* .buttonshow {
+  color: #ff6d00;
+}
+.buttonhide {
+  color: aliceblue;
+} */

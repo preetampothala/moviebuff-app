@@ -1,0 +1,65 @@
+.posterimg {
+  width: 10.2rem;
+  height: 15.2rem;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin-right: 1rem;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.container:hover .overlay {
+  opacity: 1;
+}
+
+.plusbutton {
+  position: absolute;
+  top: 11%;
+  left: 17%;
+  transform: translate(-50%, -50%);
+  font-size: 2rem;
+  color: white;
+  background: rgba(0, 0, 0, 0.3);
+  border: none;
+  border-radius: 50%;
+  width: 2.5rem;
+  height: 2.5rem;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+  cursor: pointer;
+}
+.plusbutton:hover {
+  background-color: rgba(0, 0, 0);
+}
+
+.container:hover .plusbutton {
+  opacity: 1;
+}
+
+.link {
+  text-decoration: none;
+  color: black;
+}
+
+/* .multiline {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  color: white;
+} */

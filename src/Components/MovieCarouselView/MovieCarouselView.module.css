@@ -1,0 +1,119 @@
+/* Styles for MovieCarouselView component */
+.movie_side_scroll {
+  margin-bottom: 2.5rem;
+}
+/* .title {
+  display: flex;
+  justify-content: space-between;
+} */
+.titletwo {
+  display: flex;
+  justify-content: space-between;
+  /* flex-direction: column; */
+}
+/* Container for movie posters */
+.movie_posters {
+  display: flex;
+  overflow: auto;
+}
+/* .posterimg {
+  position: relative;
+} */
+.movie_posters::-webkit-scrollbar {
+  display: none;
+}
+
+/* Styles for each movie poster */
+/* .movie_poster {
+  flex: 0 0 auto;
+  width: 15.2rem;
+  margin-right: 1.5rem;
+  scroll-snap-align: center;
+} */
+
+/* Navigation arrows */
+.carousel_nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: auto;
+  position: relative;
+  top: 8.5rem;
+  z-index: 2;
+}
+
+.carousel_nav_button {
+  background: none;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+hr {
+  border: 0.5px solid #535353;
+}
+
+h2 {
+  margin-right: 2rem;
+  font-size: 1.5rem;
+}
+p {
+  margin-top: 0.25rem;
+  margin-bottom: rem;
+}
+
+.editbutton {
+  background: none;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+/* .plusbutton {
+  position: absolute;
+  top: 10%;
+  left: 15%;
+  transform: translate(-50%, -50%);
+  font-size: 2rem;
+  color: white;
+  background: rgba(0, 0, 0, 0.3);
+  border: none;
+  border-radius: 50%;
+  width: 3rem;
+  height: 3rem;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+  cursor: pointer;
+}
+.plusbutton:hover {
+  background-color: rgba(0, 0, 0);
+}
+
+.container:hover .plusbutton {
+  opacity: 1;
+} */
+
+.multiline {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  color: white;
+  margin-right: 1rem;
+  font-size: 1.2rem;
+}
+.link {
+  margin-top: 1rem;
+  text-decoration: none;
+  color: rgb(255, 255, 255);
+  font-size: large;
+  font-weight: 600;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  margin-right: 1rem;
+}
+.link:hover {
+  color: rgb(255, 200, 129);
+}

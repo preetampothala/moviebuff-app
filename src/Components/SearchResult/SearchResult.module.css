@@ -1,0 +1,32 @@
+.searchresult {
+  margin: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  cursor: pointer;
+}
+.checked {
+  color: #ff6d00;
+  margin-right: 0.5rem;
+}
+.search_poster {
+  width: 7.2rem;
+  height: 10.2rem;
+}
+.searchresult_right {
+  display: flex;
+  flex-direction: column;
+  margin-left: 0.5rem;
+  justify-content: space-between;
+}
+.card {
+  border-radius: 12px;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.106);
+  margin-bottom: 2rem;
+  overflow: hidden;
+}
+.title {
+  margin-bottom: 0.7rem;
+}
+.overview {
+  margin-top: 0.7rem;
+}

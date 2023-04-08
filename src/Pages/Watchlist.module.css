@@ -1,0 +1,127 @@
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons+Outlined");
+
+.watchlisttitle {
+  display: flex;
+  justify-content: flex-start;
+}
+.titlename {
+  margin-right: 0.5rem;
+}
+.titletwo {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.2rem;
+}
+.watchlist_description {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+.initial {
+  margin-bottom: 1rem;
+}
+.listitem {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 1.5rem;
+}
+.custom_radio {
+  margin-right: 1rem;
+  height: 20px;
+  width: 20px;
+}
+.custom_radio input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+.checkmark {
+  position: relative;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  /* background-color: #eee; */
+  border-radius: 50%;
+  border: 2px solid #656565;
+  cursor: pointer;
+}
+.li {
+  margin-top: 2rem;
+}
+.tag {
+  background-color: #fe6d01;
+  width: 5rem;
+  padding: 0.3rem 0.5rem;
+}
+/* Add hover effect */
+.custom_radio:hover .checkmark {
+  background-color: #414141;
+}
+.initial {
+  margin-bottom: 3rem;
+  margin-top: 2rem;
+}
+/* .watched {
+  margin-top: 2rem;
+} */
+
+.watchlistmovie {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+.movie_detail_poster {
+  width: 20rem;
+  height: 30rem;
+}
+.movie_detail {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.movie_detail_top {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.movie_detail_content {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+.sTitle {
+  margin-top: 1.5rem;
+  margin-bottom: 0.7rem;
+}
+.movie_detail_right {
+  display: flex;
+  flex-direction: column;
+}
+.movie_detail_left {
+  width: 70%;
+}
+.checked {
+  color: #ff6d00;
+  margin-right: 0.5rem;
+}
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  font-family: "Sofia Sans Semi Condensed", sans-serif;
+  text-align: right;
+  background: none;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  color: white;
+  cursor: pointer;
+  font-size: large;
+}
+.button:hover {
+  color: #ff6d00;
+}
+.icon {
+  margin-left: 0.7rem;
+}
