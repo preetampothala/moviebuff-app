@@ -16,9 +16,7 @@
   margin-top: 1rem;
   margin-bottom: 1rem;
 }
-.initial {
-  margin-bottom: 1rem;
-}
+
 .listitem {
   display: flex;
   justify-content: flex-start;
@@ -124,4 +122,13 @@
 }
 .icon {
   margin-left: 0.7rem;
+}
+
+.banner {
+  margin: 2rem auto;
+  padding: 1rem;
+  background-color: #181717;
+  border-radius: 0.5rem;
+  text-align: center;
+  font-size: 1.2rem;
 }

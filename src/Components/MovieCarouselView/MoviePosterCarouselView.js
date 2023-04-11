@@ -2,12 +2,13 @@ import { React, useRef, useState } from "react";
 import MoviePoster from "../MoviePoster/MoviePoster";
 import styles from "./MovieCarouselView.module.css";
 import Button from "../UI/Button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function MovieCarouselView(props) {
   const scrollRef = useRef(null);
   const [showLeftButton, setShowLeftButton] = useState(false);
   const [showRightButton, setShowRightButton] = useState(true);
+  const navigate = useNavigate();
   const imgStyling = props.className ? props.className : styles.img;
   const handleScroll = (direction) => {
     const container = scrollRef.current;
@@ -25,6 +26,7 @@ function MovieCarouselView(props) {
   };
   const editHandler = () => {
     console.log("edit");
+    navigate("/editwatchlist/:123");
   };
 
   return (
@@ -38,12 +40,11 @@ function MovieCarouselView(props) {
           </p>
         )}
         {props.type === "watchlist" && (
-          <Button className={styles.editbutton} onCLick={editHandler}>
+          <Button className={styles.editbutton} onClick={editHandler}>
             Edit
           </Button>
         )}
       </div>
-      {/* </div> */}
       <hr />
 
       {/* <hr className="solid"></hr> */}

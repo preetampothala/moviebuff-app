@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 const useValidate = (validateValue) => {
   const [isTouched, setIsTouched] = useState(false);
   const [addedMovies, setAddedMovies] = useState([]);
@@ -14,9 +14,14 @@ const useValidate = (validateValue) => {
     setAddedMovies((prevMovies) => prevMovies.concat(movie));
   };
 
-  const resetAddedMovies = () => {
-    setAddedMovies([]);
-  };
+  const resetAddedMovies = useCallback((fromwatchlist) => {
+    if (fromwatchlist) {
+      console.log("fromwatchlist");
+      setAddedMovies(fromwatchlist);
+    } else {
+      setAddedMovies([]);
+    }
+  }, []);
 
   return {
     movies: addedMovies,

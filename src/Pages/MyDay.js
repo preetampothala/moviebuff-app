@@ -9,10 +9,8 @@ const MyDay = () => {
 
   return (
     <>
-      <div>
-        <h2>My Day</h2>
-        <p>{fullDate}</p>
-      </div>
+      <h1>My Day</h1>
+      <p>{fullDate}</p>
     </>
   );
 };

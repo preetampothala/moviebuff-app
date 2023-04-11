@@ -16,8 +16,8 @@ const SearchResult = (props) => {
     ? props.movie.vote_average.toFixed(1)
     : "";
   const overview = props.movie.overview ? props.movie.overview : "";
-
   const genres = props.movie.genre_ids ? getGenres(props.movie.genre_ids) : "";
+
   return (
     <Card>
       <div className={styles.searchresult}>

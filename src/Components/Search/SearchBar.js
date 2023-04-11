@@ -1,7 +1,8 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import styles from "./SearchBar.module.css";
 
 const SearchBar = (props) => {
+  const [searchTerm, setSearchTerm] = useState("");
   const inputRef = useRef(null);
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -15,7 +16,8 @@ const SearchBar = (props) => {
           type="text"
           ref={inputRef}
           placeholder="Search movies..."
-          value={""}
+          value={searchTerm}
+          onChange={(event) => setSearchTerm(event.target.value)}
         />
       </form>
     </>

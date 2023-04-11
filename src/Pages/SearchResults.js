@@ -43,7 +43,7 @@ const SearchResults = (props) => {
   }
   return (
     <Fragment>
-      <h2 className={styles.title}>Search Results</h2>
+      <h3 className={styles.title}>Search Results</h3>
       {searchResults.length === 0 && (
         <p className={styles.noresults}>No results found.</p>
       )}

@@ -1,14 +1,15 @@
 //watchlist context
 import React from "react";
 const WatchlistContext = React.createContext({
-  watchlists: [
-    {
+  watchlists: {
+    watchlistid: {
+      userId: "",
       watchlistid: "",
       watchlistname: "",
       watchlistdescription: "",
-      addedMovies: [],
+      addedMovies: {},
     },
-  ],
+  },
   createWatchlist: (watchlist) => {},
   deleteWatchlist: (watchlistId) => {},
   editWatchlist: (watchlistId, watchlist) => {},

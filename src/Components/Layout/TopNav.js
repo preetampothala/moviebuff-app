@@ -63,6 +63,7 @@ const TopNav = () => {
     !searchParams.get("mode") || searchParams.get("mode") === "login";
   const authCtx = useContext(AuthContext);
   const isLoggedIn = authCtx.isLoggedIn;
+
   const headerStyle = isLoggedIn
     ? styles.header
     : `${styles.header} ${styles.headerAuth}`;

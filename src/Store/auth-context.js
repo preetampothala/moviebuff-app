@@ -4,8 +4,9 @@ const AuthContext = React.createContext({
   emailid: "",
   token: "",
   isLoggedIn: false,
-  login: (token) => {},
+  login: (token, email, localId) => {},
   logout: () => {},
+  signup: (token, email, localId) => {},
   userid: "",
 });
 export default AuthContext;
@@ -13,17 +14,22 @@ export default AuthContext;
 export const AuthContextProvider = (props) => {
   const [token, setToken] = useState(null);
   const [userid, setUserid] = useState(null);
+  const [emailid, setEmailid] = useState(null);
   const userIsLoggedIn = !!token;
-  const loginHandler = (token, email) => {
-    let userid = email.split("@")[0];
+  const loginHandler = (token, email, localId) => {
     setToken(token);
-    setUserid(userid);
+    setUserid(localId);
+    setEmailid(email);
   };
   const logoutHandler = () => {
     setToken(null);
+    setUserid(null);
+    setEmailid(null);
   };
+
   const contextValue = {
     userid: userid,
+    emailid: emailid,
     token: token,
     isLoggedIn: userIsLoggedIn,
     login: loginHandler,

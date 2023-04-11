@@ -11,7 +11,6 @@ const MyLists = () => {
   const [popularMovies, setPopularMovies] = useState([]);
   const navigate = useNavigate();
   const onClickHandler = () => {
-    console.log("clicked");
     navigate("/createwatchlist");
   };
 

@@ -12,6 +12,7 @@ import Auth from "./Pages/Auth";
 import { AuthContextProvider } from "./Store/auth-context";
 import Watchlist from "./Pages/Watchlist";
 import MyDay from "./Pages/MyDay";
+import MyPlanned from "./Pages/MyPlanned";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Home /> },
       { path: "myday", element: <MyDay /> },
+      { path: "myplanned", element: <MyPlanned /> },
       {
         path: "watchlist",
         element: <MyLists />,
@@ -38,6 +40,7 @@ const router = createBrowserRouter([
       { path: "movies/:movieId", element: <MovieDetail /> },
       { path: "searchresults/:searchquery", element: <SearchResults /> },
       { path: "createwatchlist", element: <CreateWatchlist /> },
+      { path: "editwatchlist/:watchlistId", element: <CreateWatchlist /> },
       { path: "auth", element: <Auth /> },
     ],
   },

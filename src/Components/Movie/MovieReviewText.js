@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styles from "./MovieReviewText.module.css";
 const MovieReviewText = ({ review }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  console.log(review.content);
+
   const toggleReadMore = () => {
     setIsExpanded(!isExpanded);
   };

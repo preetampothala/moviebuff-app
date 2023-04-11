@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 const useInput = (validateValue) => {
   const [enteredValue, setEnteredValue] = useState("");
   const [isTouched, setIsTouched] = useState(false);
@@ -14,10 +14,15 @@ const useInput = (validateValue) => {
     setIsTouched(true);
   };
 
-  const reset = () => {
-    setEnteredValue("");
-    setIsTouched(false);
-  };
+  const reset = useCallback((fromwatchlist) => {
+    if (fromwatchlist) {
+      console.log("fromwatchlist");
+      setEnteredValue(fromwatchlist);
+    } else {
+      setEnteredValue("");
+      setIsTouched(false);
+    }
+  }, []);
 
   return {
     value: enteredValue,

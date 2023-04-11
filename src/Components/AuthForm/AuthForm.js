@@ -58,13 +58,11 @@ const AuthForm = () => {
     }
 
     const data = await response.json();
-
-    authCtx.login(data.idToken, data.email);
+    authCtx.login(data.idToken, data.email, data.localId);
     navigate("/");
   };
 
   const SubmitHandler = (event) => {
-    console.log(event.target);
     event.preventDefault();
     if (!formIsValid) {
       return;
