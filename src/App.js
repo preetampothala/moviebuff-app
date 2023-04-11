@@ -13,6 +13,7 @@ import { AuthContextProvider } from "./Store/auth-context";
 import Watchlist from "./Pages/Watchlist";
 import MyDay from "./Pages/MyDay";
 import MyPlanned from "./Pages/MyPlanned";
+import WatchListMovieDetail from "./Components/WatchListMovieDetail/WatchlistMovieDetail";
 
 const router = createBrowserRouter([
   {
@@ -34,7 +35,7 @@ const router = createBrowserRouter([
       { path: "watchlist/:watchlistId", element: <Watchlist /> },
       {
         path: "watchlist/:watchlistId/:movieId",
-        element: <Watchlist />,
+        element: <WatchListMovieDetail />,
       },
       { path: "plists", element: <Plists /> },
       { path: "movies/:movieId", element: <MovieDetail /> },

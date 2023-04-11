@@ -17,15 +17,14 @@
 }
 .custom_radio input {
   position: absolute;
-  opacity: 0;
   cursor: pointer;
+  top: 0;
 }
 .checkmark {
   position: relative;
   display: inline-block;
   width: 20px;
   height: 20px;
-  /* background-color: #eee; */
   border-radius: 50%;
   border: 2px solid #656565;
   cursor: pointer;
@@ -44,4 +43,23 @@
   flex-direction: column;
   justify-content: space-between;
   margin-bottom: 4rem;
+}
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  font-family: "Sofia Sans Semi Condensed", sans-serif;
+  text-align: right;
+  background: none;
+  margin-right: 1rem;
+  color: white;
+  cursor: pointer;
+  font-size: large;
+}
+.button span {
+  cursor: pointer;
+  margin-right: 1rem;
+}
+.button:hover {
+  color: #ff6d00;
 }

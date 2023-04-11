@@ -79,3 +79,22 @@
   border: 2px solid #656565;
   cursor: pointer;
 }
+.watchlistbutton {
+  background-color: #e35518;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 1.2rem;
+  /* font-weight: 600; */
+  padding: 1rem 2rem;
+  text-align: center;
+  text-decoration: none;
+  /* display: inline-block; */
+  margin: 4px 2px;
+  cursor: pointer;
+  transition-duration: 0.4s;
+}
+.watchlistbutton:hover {
+  background-color: #cc460c;
+  color: white;
+}
