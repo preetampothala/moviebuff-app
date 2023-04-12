@@ -1,13 +1,26 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./MovieItems.module.css";
 import SearchResult from "../SearchResult/SearchResult";
-import Button from "../UI/Button";
+
+import { Link } from "react-router-dom";
 const MovieItems = (props) => {
-  // console.log("MovieItems received props:", props);
-  // props.movies.map((movie, index) => console.log("Movie ID:", movie.id));
-  const handleButtonClick = (movieId) => {
-    props.onchangeHandler(movieId);
+  const handleButtonClick = (event) => {
+    props.onchangeHandler(event.target.value);
   };
+  const [watched, setWatched] = useState([]);
+
+  useEffect(() => {
+    if (props.watched) {
+      if (props.watched.length > 0) {
+        setWatched(props.watched);
+      } else {
+        setWatched([]);
+      }
+    } else {
+      return;
+    }
+  }, [props.watched]);
+
   return (
     <>
       {props.movies.map((movie, index) => (
@@ -15,22 +28,30 @@ const MovieItems = (props) => {
           <div className={styles.listitem}>
             {props.radio === true && (
               <>
-                <div className={styles.custom_radio}>
-                  <Button
-                    className={styles.button}
-                    onClick={() => handleButtonClick(movie.id)}
+                <label htmlFor={movie.id} className={styles.custom_radio}>
+                  <input
+                    type="radio"
+                    name={movie.id}
                     value={movie.id}
-                  >
-                    <span className={`material-icons-outlined`}>done</span>
-                  </Button>
-                </div>
-                {/* <span className={styles.checkmark}></span> */}
+                    className={styles.input}
+                    onClick={handleButtonClick}
+                  />
+                </label>
               </>
             )}
 
             {/* <div onClick={() => props.handleResultClick(movie.id, movie)}>
               <SearchResult movie={movie}></SearchResult>
             </div> */}
+            <Link
+              to={`/watchlist/${props.params}/${movie.id}`}
+              state={{
+                movie: movie,
+                watched: watched,
+              }}
+            >
+              <SearchResult movie={movie}></SearchResult>
+            </Link>
           </div>
         </div>
       ))}

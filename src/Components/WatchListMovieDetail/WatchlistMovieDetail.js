@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useLocation, useParams } from "react-router-dom";
 import styles from "./WatchlistMovieDetail.module.css";
 import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -13,55 +13,54 @@ const WatchListMovieDetail = (props) => {
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const [mydayText, setMydayText] = useState("Add to My Day");
-  const location = useLocation();
-  console.log("props:", props);
-  console.log("location:", location);
-  //   const [watchlistmovie] = useState
-  //   const [watched] = props.location.state.watched;
-  //   const [params] = props.location.state.params;
-  //   const [onchangeHandler] = props.location.state.onchangeHandler;
-  //   console.log("watchlistmovie:", watchlistmovie);
-  //   //   useEffect(() => {
-  //   //     setWatchlistMovie(props.movie);
-  //   //   }, [props.movie]);
-  //   //   console.log("Watchlistmovie state:", watchlistmovie);
+  const { state } = useLocation();
+  const params = useParams();
+  const [watchlistmovie] = useState(state.movie);
+  const [watched] = useState(state.watched);
+  const starStyling = `fa fa-star ${styles.checked}`;
+  const genres = watchlistmovie ? getGenres(watchlistmovie.genre_ids) : null;
+  const movieTitle = watchlistmovie
+    ? `${watchlistmovie.title} (${watchlistmovie.release_date.slice(0, 4)})`
+    : null;
 
-  //   const starStyling = `fa fa-star ${styles.checked}`;
-  //   const genres = watchlistmovie ? getGenres(watchlistmovie.genre_ids) : null;
-  //   const movieTitle = watchlistmovie
-  //     ? `${watchlistmovie.title} (${watchlistmovie.release_date.slice(0, 4)})`
-  //     : null;
-  //   const navigate = useNavigate();
-  //   const movieOnchangeHandler = (movieId) => {
-  //     onchangeHandler(movieId);
-  //     navigate(`/watchlist/${params}`);
+  const navigate = useNavigate();
+  //   const movieOnchangeHandler = (movieid) => {
+  //     navigate(`/watchlist/${params.watchlistId}`, {
+  //       state: { watchlistmovie: movieid },
+  //     });
   //   };
-  //   const mydayHandler = (event) => {
-  //     event.preventDefault();
-  //     setMydayText("Added to My Day");
-  //     // add movie to myday array
-  //     const newmyday = [...myday, watchlistmovie];
-  //     setMyday(newmyday);
-  //     localStorage.setItem("myday", JSON.stringify(newmyday));
-  //   };
+  useEffect(() => {
+    if (!localStorage.getItem("myday")) {
+      localStorage.setItem("myday", JSON.stringify([]));
+    } else {
+      const myday = JSON.parse(localStorage.getItem("myday"));
+      setMyday(myday);
+    }
+  }, []);
+  const mydayHandler = (event) => {
+    console.log("myday");
+    event.preventDefault();
+    setMydayText("Added to My Day");
+    const myday = JSON.parse(localStorage.getItem("myday"));
+    const newmyday = [...myday, watchlistmovie];
+    setMyday((prev) => [...prev, watchlistmovie]);
+    localStorage.setItem("myday", JSON.stringify(newmyday));
+  };
   const duedateHandler = (event) => {
     console.log(event);
     event.preventDefault();
     setShowDatePicker(true);
   };
-  //   const backHandler = (event) => {
-  //     event.preventDefault();
-  //     navigate(`/watchlist/${props.params}`);
-  //   };
-  //   const handleDateChange = (date) => {
-  //     setSelectedDate(date);
-  //     const shortdate = formatDate(date);
-  //     // add the date to watchlistmovie object
-  //     const newinfo = [{ ...watchlistmovie, date: shortdate }];
-
-  //     localStorage.setItem("newinfo", JSON.stringify(newinfo));
-  //     setShowDatePicker(false);
-  //   };
+  const backHandler = () => {
+    navigate(`/watchlist/${params.watchlistId}`);
+  };
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+    const shortdate = formatDate(date);
+    const newinfo = [{ ...watchlistmovie, date: shortdate }];
+    localStorage.setItem("newinfo", JSON.stringify(newinfo));
+    setShowDatePicker(false);
+  };
   const formatDate = (date) => {
     return date.toLocaleDateString("en-US", {
       year: "numeric",
@@ -71,6 +70,11 @@ const WatchListMovieDetail = (props) => {
   };
   return (
     <>
+      <section>
+        <Button className={styles.button} onClick={backHandler}>
+          Back
+        </Button>
+      </section>
       <section>
         <div className={styles.watchlisttitle}>
           <h1 className={styles.titlename}>Watchlist name</h1>
@@ -89,23 +93,18 @@ const WatchListMovieDetail = (props) => {
         </p>
       </section>
 
-      {/* <section>
-        <Button className={styles.button} onClick={backHandler}>
-          Back
-        </Button>
-      </section>
       <section className={styles.watchlistmovie}>
-        {!watched.includes(watchlistmovie) && (
-          <div className={styles.custom_radio}>
-            <Button
-              className={styles.button}
-              onClick={() => movieOnchangeHandler(watchlistmovie.id)}
+        {/* {!watched.includes(watchlistmovie) && (
+          <label htmlFor={watchlistmovie.id} className={styles.custom_radio}>
+            <input
+              type="radio"
+              name={watchlistmovie.id}
               value={watchlistmovie.id}
-            >
-              <span className={`material-icons-outlined`}>done</span>
-            </Button>
-          </div>
-        )}
+              className={styles.input}
+              onClick={() => movieOnchangeHandler(watchlistmovie.id)}
+            />
+          </label>
+        )} */}
         <div className={styles.movie_detail}>
           <div className={styles.movie_detail_top}>
             <Poster
@@ -126,13 +125,13 @@ const WatchListMovieDetail = (props) => {
               <p>{genres}</p>
               <h4 className={styles.sTitle}>OVERVIEW</h4>
               <p>{watchlistmovie.overview}</p>
-              <Button
+              {/* <Button
                 onClick={movieOnchangeHandler}
                 value={watchlistmovie.id}
                 className={styles.watchlistbutton}
               >
                 Mark Watched
-              </Button>
+              </Button> */}
             </div>
             <div className={styles.movie_detail_right}>
               <button className={styles.button} onClick={mydayHandler}>
@@ -171,7 +170,7 @@ const WatchListMovieDetail = (props) => {
             </div>
           </div>
         </div>
-      </section> */}
+      </section>
     </>
   );
 };

@@ -12,23 +12,37 @@
 }
 .custom_radio {
   margin-right: 1rem;
-  height: 20px;
-  width: 20px;
 }
 .custom_radio input {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-}
-.checkmark {
-  position: relative;
-  display: inline-block;
-  width: 20px;
-  height: 20px;
+  appearance: none;
   border-radius: 50%;
-  border: 2px solid #656565;
+  height: 20px;
+  width: 20px;
+  border: 2px solid #999;
+  transition: 0.2s all linear;
+  margin-right: 5px;
+  position: relative;
+  top: 4px;
   cursor: pointer;
 }
+.custom_radio input:hover {
+  background-color: #575757;
+  cursor: pointer;
+}
+.custom_radio input:checked {
+  appearance: none;
+  border-radius: 50%;
+  height: 20px;
+  width: 20px;
+
+  border: 2px solid #999;
+  transition: 0.2s all linear;
+  margin-right: 5px;
+
+  position: relative;
+  top: 4px;
+}
+
 .li {
   margin-top: 1rem;
   padding: 1rem;

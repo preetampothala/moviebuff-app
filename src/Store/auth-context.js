@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useContext } from "react";
 const AuthContext = React.createContext({
   emailid: "",
   token: "",
@@ -41,4 +41,7 @@ export const AuthContextProvider = (props) => {
       {props.children}
     </AuthContext.Provider>
   );
+};
+export const useAuth = () => {
+  return useContext(AuthContext);
 };

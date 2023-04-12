@@ -98,3 +98,36 @@
   background-color: #cc460c;
   color: white;
 }
+.custom_radio {
+  margin-right: 1rem;
+}
+.custom_radio input {
+  appearance: none;
+
+  border-radius: 50%;
+  height: 20px;
+  width: 20px;
+
+  border: 2px solid #999;
+  transition: 0.2s all linear;
+  margin-right: 5px;
+
+  position: relative;
+  top: 4px;
+}
+.custom_radio input:hover {
+  background-color: #575757;
+}
+.custom_radio input:checked {
+  appearance: none;
+  border-radius: 50%;
+  height: 20px;
+  width: 20px;
+
+  border: 2px solid #999;
+  transition: 0.2s all linear;
+  margin-right: 5px;
+
+  position: relative;
+  top: 4px;
+}

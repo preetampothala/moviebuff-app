@@ -7,20 +7,14 @@ import Banner from "../Components/UI/Banner";
 const MyPlanned = () => {
   const [movies, setMovies] = useState([]);
   const [watched, setWatched] = useState([]);
-  const onchangeHandler = (event) => {
-    event.preventDefault();
+  const onchangeHandler = (movieId) => {
     // delete movie from the movie array
-    const newMovie = movies.filter(
-      (movie) => movie.id !== Number(event.target.value)
-    );
+    const newMovie = movies.filter((movie) => movie.id !== Number(movieId));
 
     setMovies(newMovie);
     // add movie to the watched array
-    const watchedMovie = movies.filter(
-      (movie) => movie.id === Number(event.target.value)
-    );
+    const watchedMovie = movies.filter((movie) => movie.id === Number(movieId));
     setWatched((prevWatched) => [...prevWatched, ...watchedMovie]);
-    console.log(event.target.value);
   };
   const handleResultClick = (id, movie) => {
     console.log(id);
@@ -55,7 +49,9 @@ const MyPlanned = () => {
         <h1>My Planned Movies</h1>
       </section>
       {movies.length === 0 && (
-        <Banner>Well done you have watched all movies in your watchlist</Banner>
+        <Banner>
+          Well done you have watched all movies in your My Planned
+        </Banner>
       )}
       {renderedMovies.map((watchDate) => (
         <section
