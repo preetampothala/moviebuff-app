@@ -1,10 +1,10 @@
 import React from "react";
-import WatchlistFrom from "../Components/WatchlistFrom/WatchlistForm";
+import WatchlistForm from "../Components/WatchlistForm/WatchlistForm";
 
 const CreateWatchlist = () => {
   return (
     <>
-      <WatchlistFrom mode={"create"} />
+      <WatchlistForm mode={"create"} />
     </>
   );
 };

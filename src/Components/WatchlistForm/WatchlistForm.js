@@ -6,10 +6,9 @@ import SearchResult from "../SearchResult/SearchResult";
 import AuthContext from "../../Store/auth-context";
 import useValidate from "../../hooks/use-validation";
 import useInput from "../../hooks/use-input";
-import styles from "./watchlistFrom.module.css";
-
+import styles from "../WatchlistForm/WatchlistForm.module.css";
 import WatchlistContext from "../../Store/watchlist-context";
-const WatchlistFrom = (props) => {
+const WatchlistForm = (props) => {
   const [searchTerm, setSearchTerm] = useState("");
   const searchInputRef = useRef();
   const navigate = useNavigate();
@@ -256,4 +255,4 @@ const WatchlistFrom = (props) => {
     </div>
   );
 };
-export default React.memo(WatchlistFrom);
+export default React.memo(WatchlistForm);

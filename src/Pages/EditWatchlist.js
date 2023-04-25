@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useContext } from "react";
-import { useParams, useLocation } from "react-router-dom";
-import WatchlistFrom from "../Components/WatchlistFrom/WatchlistForm";
-import AuthContext from "../Store/auth-context";
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import WatchlistForm from "../Components/WatchlistForm/WatchlistForm";
 
 const EditWatchlist = () => {
   console.log("in edit watchlist");
@@ -17,7 +16,7 @@ const EditWatchlist = () => {
   }, [watchlist]);
   return (
     <>
-      <WatchlistFrom mode={"edit"} watchlistData={watchlistData} />
+      <WatchlistForm mode={"edit"} watchlistData={watchlistData} />
     </>
   );
 };
