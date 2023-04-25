@@ -85,8 +85,8 @@ export const monthName = (month) => {
   }
 };
 export const watchlist = {
-  watchlistname: "Watchlist 1",
-  watchlistdescription: "Watchlist 1 description",
+  watchlistName: "Watchlist 1",
+  watchlistDescription: "Watchlist 1 description",
   addedMovies: [
     {
       adult: false,

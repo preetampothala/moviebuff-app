@@ -1,6 +1,7 @@
 .content {
   overflow: show;
   display: -webkit-box;
+  margin-bottom: 1rem;
   /* Line height should be specified for proper truncation */
 }
 
@@ -12,7 +13,7 @@
 }
 .button {
   background: none;
-  margin: 1rem 0;
+  margin-bottom: 1rem;
   cursor: pointer;
   color: white;
 }

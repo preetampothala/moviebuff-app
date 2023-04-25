@@ -3,6 +3,8 @@ import styles from "./TopNav.module.css";
 import MovieSearch from "../Search/MovieSearch";
 import { useContext } from "react";
 import AuthContext from "../../Store/auth-context";
+import Profile from "../Profile/Profile";
+import logo from "../../Images/logoo.png";
 
 const NavLinks = ({ isLoggedIn, isLogin, onLogout }) => {
   if (!isLoggedIn) {
@@ -76,7 +78,7 @@ const TopNav = () => {
           isLoggedIn ? styles.logo : `${styles.logo} ${styles.logo_auth}`
         }
       >
-        MovieBuff
+        <img className={styles.img} src={logo} alt="logo" />
       </NavLink>
 
       {isLoggedIn && (
@@ -91,6 +93,11 @@ const TopNav = () => {
           onLogout={authCtx.logout}
         />
       </nav>
+      {isLoggedIn && (
+        <div className={styles.profile}>
+          <Profile />
+        </div>
+      )}
     </header>
   );
 };

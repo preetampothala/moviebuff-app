@@ -5,7 +5,7 @@
   color: #fff;
   font-size: 1.2rem;
   /* font-weight: 600; */
-  padding: 1rem 2rem;
+  padding: 0.7rem 1.5rem;
   text-align: center;
   text-decoration: none;
   /* display: inline-block; */
@@ -21,6 +21,7 @@
 .watchlisttitle {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 .mylistimg {
   width: 11.2rem;

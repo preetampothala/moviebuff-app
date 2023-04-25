@@ -6,7 +6,6 @@
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
-  align-items: center;
   padding: 20px 40px;
   z-index: 3;
   height: 5rem;
@@ -14,9 +13,7 @@
   background-color: black;
   margin-bottom: 2rem;
 }
-.searchWrapper {
-  flex-basis: 33.33%;
-}
+
 .headerAuth {
   justify-content: center;
 }
@@ -24,17 +21,26 @@
   width: 33.3%;
 } */
 .logo {
-  font-weight: 600;
+  width: 50px;
   font-size: 1.5rem;
   color: #fff;
   flex-basis: 33.33%;
 }
-.logo_auth {
-  flex-basis: 50%;
+.img {
+  width: 12rem;
+}
+.searchWrapper {
+  flex-basis: 33.33%;
 }
 
 .navarea {
-  flex-basis: 33.33%;
+  flex-basis: 28%;
+}
+.profile {
+  flex-basis: 3%;
+}
+.logo_auth {
+  flex-basis: 50%;
 }
 .navarea_auth {
   flex-basis: 50%;

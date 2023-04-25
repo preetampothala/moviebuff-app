@@ -1,0 +1,19 @@
+.sTitle {
+  margin-top: 1.5rem;
+  margin-bottom: 0.7rem;
+}
+.img {
+  width: 4.5rem;
+  margin-right: 2rem;
+  border-radius: 0.5rem;
+}
+
+.streaminglogos {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-bottom: 1.5rem;
+}
+.streamingtype {
+  margin-bottom: 0.7rem;
+}

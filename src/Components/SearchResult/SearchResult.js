@@ -17,14 +17,24 @@ const SearchResult = (props) => {
     : "";
   const overview = props.movie.overview ? props.movie.overview : "";
   const genres = props.movie.genre_ids ? getGenres(props.movie.genre_ids) : "";
+  const onclickHandler = () => {
+    props.removeMovie(props.movie.id);
+  };
 
   return (
     <Card>
       <div className={styles.searchresult}>
         <Poster movie={props.movie} className={styles.search_poster}></Poster>
         <div className={styles.searchresult_right}>
-          <div>
-            <h3 className={styles.title}>{title}</h3>
+          <article className={styles.article}>
+            <div className={styles.searchresulttitle}>
+              <h3 className={styles.title}>{title}</h3>
+              {props.mode && (
+                <button className={styles.button} onClick={onclickHandler}>
+                  <span className="material-icons">close</span>
+                </button>
+              )}
+            </div>
             {vote && (
               <div>
                 <span className={starStyling}></span>
@@ -32,7 +42,7 @@ const SearchResult = (props) => {
               </div>
             )}
             <p className={styles.overview}>{overview}</p>
-          </div>
+          </article>
           <p>{genres}</p>
         </div>
       </div>

@@ -2,7 +2,8 @@
 
 .watchlisttitle {
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
+  align-items: center;
 }
 .titlename {
   margin-right: 0.5rem;
@@ -10,7 +11,6 @@
 .titletwo {
   display: flex;
   justify-content: space-between;
-  margin-top: 0.2rem;
 }
 .watchlist_description {
   margin-top: 1rem;
@@ -119,6 +119,27 @@
 }
 .button:hover {
   color: #ff6d00;
+}
+.watchlistbutton {
+  background-color: #e35518;
+  font-family: "Sofia Sans Semi Condensed", sans-serif;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 1.2rem;
+  /* font-weight: 600; */
+  padding: 0.7rem 1.5rem;
+  text-align: center;
+  text-decoration: none;
+  /* display: inline-block; */
+  margin: 4px 2px;
+  cursor: pointer;
+  transition-duration: 0.4s;
+  height: 80%;
+}
+.watchlistbutton:hover {
+  background-color: #cc460c;
+  color: white;
 }
 .icon {
   margin-left: 0.7rem;

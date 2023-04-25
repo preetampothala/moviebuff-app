@@ -1,32 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styles from "./MovieItems.module.css";
 import SearchResult from "../SearchResult/SearchResult";
-
 import { Link } from "react-router-dom";
 const MovieItems = (props) => {
   const handleButtonClick = (event) => {
-    props.onchangeHandler(event.target.value);
+    console.log(event.target.value);
+    props.onchangeHandler(event.target.value, props.movies);
   };
-  const [watched, setWatched] = useState([]);
-
-  useEffect(() => {
-    if (props.watched) {
-      if (props.watched.length > 0) {
-        setWatched(props.watched);
-      } else {
-        setWatched([]);
-      }
-    } else {
-      return;
-    }
-  }, [props.watched]);
 
   return (
     <>
       {props.movies.map((movie, index) => (
         <div className={styles.li} key={index}>
           <div className={styles.listitem}>
-            {props.radio === true && (
+            {props.parent !== "plists" && props.radio === true && (
               <>
                 <label htmlFor={movie.id} className={styles.custom_radio}>
                   <input
@@ -39,19 +26,28 @@ const MovieItems = (props) => {
                 </label>
               </>
             )}
-
-            {/* <div onClick={() => props.handleResultClick(movie.id, movie)}>
-              <SearchResult movie={movie}></SearchResult>
-            </div> */}
-            <Link
-              to={`/watchlist/${props.params}/${movie.id}`}
-              state={{
-                movie: movie,
-                watched: watched,
-              }}
-            >
-              <SearchResult movie={movie}></SearchResult>
-            </Link>
+            {props.parent === "mylists" ? (
+              <Link
+                to={`/watchlist/${props.params}/${movie.id}`}
+                state={{
+                  movie: movie,
+                  watched: props.watched,
+                  parent: props.parent,
+                  watchlist: props.watchlist,
+                  date: props.date,
+                  params: props.params,
+                }}
+              >
+                <SearchResult movie={movie}></SearchResult>
+              </Link>
+            ) : (
+              <Link to={`/movies/${movie.id}`}>
+                <SearchResult
+                  movie={movie}
+                  parent={props.parent}
+                ></SearchResult>
+              </Link>
+            )}
           </div>
         </div>
       ))}

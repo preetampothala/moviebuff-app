@@ -7,6 +7,8 @@ import AuthContext from "../../Store/auth-context";
 import useValidate from "../../hooks/use-validation";
 import useInput from "../../hooks/use-input";
 import styles from "./watchlistFrom.module.css";
+
+import WatchlistContext from "../../Store/watchlist-context";
 const WatchlistFrom = (props) => {
   const [searchTerm, setSearchTerm] = useState("");
   const searchInputRef = useRef();
@@ -14,22 +16,24 @@ const WatchlistFrom = (props) => {
   const watchlistDescriptionInputRef = useRef();
   const watchlistNameInputRef = useRef();
   const authCtx = useContext(AuthContext);
-  const { mode, watchlistData } = props;
+  const watchlistCtx = useContext(WatchlistContext);
+  const { mode } = props;
+  const { watchlistData } = props;
 
   const {
-    value: watchlistname,
-    isValid: watchlistnameIsValid,
-    hasError: watchlistnameHasError,
-    valueChangeHandler: watchlistnameChangeHandler,
-    inputBlurHandler: watchlistnameBlurHandler,
+    value: watchlistName,
+    isValid: watchlistNameIsValid,
+    hasError: watchlistNameHasError,
+    valueChangeHandler: watchlistNameChangeHandler,
+    inputBlurHandler: watchlistNameBlurHandler,
     reset: resetWatchlistname,
   } = useInput((value) => typeof value === "string" && value.trim() !== "");
   const {
-    value: watchlistdescription,
-    isValid: watchlistdescriptionIsValid,
-    hasError: watchlistdescriptionHasError,
-    valueChangeHandler: watchlistdescriptionChangeHandler,
-    inputBlurHandler: watchlistdescriptionBlurHandler,
+    value: watchlistDescription,
+    isValid: watchlistDescriptionIsValid,
+    hasError: watchlistDescriptionHasError,
+    valueChangeHandler: watchlistDescriptionChangeHandler,
+    inputBlurHandler: watchlistDescriptionBlurHandler,
     reset: resetWatchlistdescription,
   } = useInput((value) => typeof value === "string" && value.trim() !== "");
 
@@ -39,14 +43,14 @@ const WatchlistFrom = (props) => {
     addedMoviesHasError,
     addMovieHandler: setAddedMovies,
     resetAddedMovies,
+    removeMovieHandler,
     inputBlurHandler: movieSearchBlurHandler,
   } = useValidate((addedMovies) => addedMovies.length > 0);
-
   useEffect(() => {
     if (mode === "edit") {
-      resetWatchlistname(watchlistData.watchlistname);
-      resetWatchlistdescription(watchlistData.watchlistdescription);
-      resetAddedMovies(watchlistData.addedMovies);
+      resetWatchlistname(watchlistData.watchlistName);
+      resetWatchlistdescription(watchlistData.watchlistDescription);
+      resetAddedMovies(watchlistData.movies);
     }
   }, [
     mode,
@@ -55,10 +59,17 @@ const WatchlistFrom = (props) => {
     resetWatchlistdescription,
     resetAddedMovies,
   ]);
+
+  // useEffect(() => {
+  //   if (existingmovie) {
+  //     setAddedMovies(existingmovie);
+  //   }
+  // }, [existingmovie, setAddedMovies]);
+
   let formIsValid = false;
   if (
-    watchlistnameIsValid &&
-    watchlistdescriptionIsValid &&
+    watchlistNameIsValid &&
+    watchlistDescriptionIsValid &&
     addedMoviesIsValid
   ) {
     formIsValid = true;
@@ -75,44 +86,66 @@ const WatchlistFrom = (props) => {
     setAddedMovies(movie);
     setSearchTerm("");
   };
+  const removeMovie = (movieId) => {
+    console.log("removing movie");
+    removeMovieHandler(movieId);
+  };
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    const watchlistname = watchlistNameInputRef.current.value;
-    const watchlistdescription = watchlistDescriptionInputRef.current.value;
-    const movies = addedMovies;
-    //use first 3 letters of watchlistname and a random number to create a unique id
-    const watchlistid =
-      watchlistname.slice(0, 3) + Math.floor(Math.random() * 1000);
+    const watchlistName = watchlistNameInputRef.current.value;
+    const watchlistDescription = watchlistDescriptionInputRef.current.value;
 
-    const watchlist = {
-      [watchlistid]: {
-        userId: authCtx.userid,
-        watchlistid: watchlistid,
-        watchlistname: watchlistname,
-        watchlistdescription: watchlistdescription,
-        movies: movies,
-      },
-      [watchlistid]: {
-        userId: authCtx.userid,
-        watchlistid: watchlistid,
-        watchlistname: watchlistname,
-        watchlistdescription: watchlistdescription,
-        movies: movies,
-      },
-    };
+    const date = new Date();
+    const dateCreated = date.toISOString().trim().split("T")[0];
+    //use first 3 letters of watchlistName and a random number to create a unique id
 
-    localStorage.setItem("watchlist", JSON.stringify(watchlist));
-    fetch(
-      "https://moviebuff-38aaa-default-rtdb.firebaseio.com/watchlists.json",
-      {
-        method: "POST",
-        body: JSON.stringify(watchlist),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    if (mode === "create") {
+      const watchlistId =
+        watchlistName.replace(/\s/g, "") + Math.floor(Math.random() * 10000);
+      const movies = addedMovies.reduce((acc, movie) => {
+        // add watchlistId to each movie
+        movie.watchlistId = watchlistId;
+        acc[movie.id] = movie;
+        movie.watched = false;
+        return acc;
+      }, {});
+      console.log(authCtx.username);
+      const watchlist = {
+        userId: authCtx.userid,
+        createdBy: authCtx.username,
+        watchlistName: watchlistName,
+        watchlistId: watchlistId,
+        watchlistDescription: watchlistDescription,
+        movies: movies,
+        dateCreated: dateCreated,
+      };
+      // createWatchlist(watchlist, watchlistId, authCtx.userid);
+      watchlistCtx.addNewWatchlist(watchlist, watchlistId);
+    }
+    if (mode === "edit") {
+      const movies = addedMovies.reduce((acc, movie) => {
+        // add watchlistId to each movie
+        movie.watchlistId = watchlistData.watchlistId;
+        movie.watched = movie.watched ? movie.watched : false;
+        acc[movie.id] = movie;
+        return acc;
+      }, {});
+      console.log(authCtx.username);
+      const watchlist = {
+        userId: authCtx.userid,
+        createdBy: authCtx.username,
+        watchlistId: watchlistData.watchlistId,
+        watchlistName: watchlistName,
+        watchlistDescription: watchlistDescription,
+        movies: movies,
+        dateCreated: watchlistData.dateCreated,
+      };
+      const editedwatchlistId = watchlistData.watchlistId;
+      console.log(watchlist, editedwatchlistId, authCtx.userid);
+      // updateWatchlist(watchlist, editedwatchlistId, authCtx.userid);
+      watchlistCtx.updatecurrentWatchlist(watchlist, editedwatchlistId);
+    }
 
     resetWatchlistname();
     resetWatchlistdescription();
@@ -128,40 +161,40 @@ const WatchlistFrom = (props) => {
       )}
       <form className={styles.createwatchlist} onSubmit={handleFormSubmit}>
         <div className={styles.formControl}>
-          <label htmlFor="watchlistname" className={styles.label}>
+          <label htmlFor="watchlistName" className={styles.label}>
             Watchlist Name
           </label>
           <input
             type="text"
-            id="watchlistname"
-            name="watchlistname"
-            onChange={watchlistnameChangeHandler}
+            id="watchlistName"
+            name="watchlistName"
+            onChange={watchlistNameChangeHandler}
             className={styles.input}
             ref={watchlistNameInputRef}
-            onBlur={watchlistnameBlurHandler}
-            value={watchlistname}
+            onBlur={watchlistNameBlurHandler}
+            value={watchlistName}
           />
-          {watchlistnameHasError && (
+          {watchlistNameHasError && (
             <span className={styles.error_text}>
               Watchlist name is required.
             </span>
           )}
         </div>
         <div className={styles.formControl}>
-          <label htmlFor="watchlistdescription" className={styles.label}>
+          <label htmlFor="watchlistDescription" className={styles.label}>
             Watchlist Description
           </label>
           <input
             type="text"
-            id="watchlistdescription"
-            name="watchlistdescription"
-            onChange={watchlistdescriptionChangeHandler}
+            id="watchlistDescription"
+            name="watchlistDescription"
+            onChange={watchlistDescriptionChangeHandler}
             className={styles.input}
-            onBlur={watchlistdescriptionBlurHandler}
+            onBlur={watchlistDescriptionBlurHandler}
             ref={watchlistDescriptionInputRef}
-            value={watchlistdescription}
+            value={watchlistDescription}
           />
-          {watchlistdescriptionHasError && (
+          {watchlistDescriptionHasError && (
             <span className={styles.error_text}>
               Watchlist description is required.
             </span>
@@ -203,8 +236,13 @@ const WatchlistFrom = (props) => {
             <p>Added Movies</p>
             <ul className={styles.addedmovies}>
               {addedMovies.map((movie) => (
-                <li className={styles.li}>
-                  <SearchResult key={movie.id} movie={movie} />
+                <li className={styles.li} key={movie.id}>
+                  <SearchResult
+                    key={movie.id}
+                    movie={movie}
+                    mode={mode}
+                    removeMovie={removeMovie}
+                  />
                 </li>
               ))}
             </ul>
@@ -218,4 +256,4 @@ const WatchlistFrom = (props) => {
     </div>
   );
 };
-export default WatchlistFrom;
+export default React.memo(WatchlistFrom);

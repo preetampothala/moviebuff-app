@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import MovieBackdrop from "../MovieBackdrop/MovieBackdrop";
 import styles from "./Movie.module.css";
 import CastCarouselView from "../CastCarousel/CastCarouselView";
 import Poster from "../Poster/Poster";
 import MovieReviewText from "./MovieReviewText";
+import Streaming from "./Streaming";
+import MovieCarouselView from "../MovieCarouselView/MovieCarouselView";
+import Modal from "../UI/Modal/Modal";
 const Movie = (props) => {
+  const [showModal, setShowModal] = useState(false);
+  const [modalMovie, setModalMovie] = useState([]);
+
   const starStyling = `fa fa-star ${styles.checked}`;
   const runtime = formatRuntime(props.movie.runtime);
   function formatRuntime(minutes) {
@@ -60,84 +66,108 @@ const Movie = (props) => {
       return acc + genre.name + ", ";
     }, "")
     .slice(0, -2);
-
+  const handleAddToWatchlist = (movie) => {
+    setShowModal(true);
+    setModalMovie(movie);
+  };
+  const modalonCloseHandler = () => {
+    setShowModal(false);
+  };
   return (
-    <div className={styles.movie_detail}>
-      <div className={styles.movie_detail_top}>
-        <Poster movie={props.movie} className={styles.movie_detail_poster} />
-        <MovieBackdrop movie={props.movie} />
-      </div>
-      <div className={styles.movie_detail_content}>
-        <div className={styles.movie_detail_left}>
-          <h2>{movieTitle}</h2>
-          <p>{runtime}</p>
-          <h3 className={styles.sTitle}>
-            <span className={starStyling}></span>
-            {props.movie.vote_average}
-          </h3>
-          <h4 className={styles.sTitle}>GENRES</h4>
-          <p>{genres}</p>
-          <h4 className={styles.sTitle}>OVERVIEW</h4>
-          <p>{props.movie.overview}</p>
+    <>
+      {showModal && (
+        <Modal modalMovie={modalMovie} onClose={modalonCloseHandler}></Modal>
+      )}
+      <div className={styles.movie_detail}>
+        <div className={styles.movie_detail_top}>
+          <Poster movie={props.movie} className={styles.movie_detail_poster} />
+          <MovieBackdrop movie={props.movie} />
+        </div>
+        <div className={styles.movie_detail_content}>
+          <div className={styles.movie_detail_left}>
+            <h2>{movieTitle}</h2>
+            <p>{runtime}</p>
+            <h3 className={styles.sTitle}>
+              <span className={starStyling}></span>
+              {props.movie.vote_average}
+            </h3>
+            <p>{props.movie.vote_count}</p>
+
+            <h4 className={styles.sTitle}>GENRES</h4>
+            <p>{genres}</p>
+            <h4 className={styles.sTitle}>OVERVIEW</h4>
+            <p>{props.movie.overview}</p>
+          </div>
+
+          <div className={styles.movie_detail_right}>
+            <h4 className={styles.sTitle}>DIRECTOR</h4>
+            <p>{director}</p>
+            <h4 className={styles.sTitle}>STATUS</h4>
+            <p>{props.movie.status}</p>
+            <h4 className={styles.sTitle}>LANGUAGE</h4>
+            <p>{languages}</p>
+          </div>
         </div>
 
-        <div className={styles.movie_detail_right}>
-          <h4 className={styles.sTitle}>DIRECTOR</h4>
-          <p>{director}</p>
-          <h4 className={styles.sTitle}>STATUS</h4>
-          <p>{props.movie.status}</p>
-          <h4 className={styles.sTitle}>LANGUAGE</h4>
-          <p>{languages}</p>
-        </div>
-      </div>
-      <div>
-        <h4 className={styles.sTitle}>STREAMING</h4>
-        <p>{props.movie.streaming}</p>
+        {Object.keys(props.watchProviders.results).length > 0 && (
+          <Streaming watchProviders={props.watchProviders} />
+        )}
+        <section>
+          <h4 className={styles.sTitle}>TOP CAST</h4>
+          <CastCarouselView cast={props.cast} />
+        </section>
         <hr></hr>
-        <h4 className={styles.sTitle}>TOP CAST</h4>
-        <CastCarouselView cast={props.cast} />
-      </div>
-      <hr></hr>
-      <div className={styles.movie_detail_content}>
-        <div className={styles.moviebottom_detail_left}>
-          <h4 className={styles.sTitle}>REVIEWS</h4>
-          {props.reviews.results.length === 0 && (
-            <p>There are no reviews for this movie yet.</p>
-          )}
-          {props.reviews.results.map((review) => {
-            return (
-              <div key={review.id}>
-                <h4 className={styles.sTitle}>
-                  Review By{" "}
-                  <span className={styles.authorname}>{review.author}</span>
-                </h4>
-                <MovieReviewText review={review} />
-                <hr></hr>
-              </div>
-            );
-          })}
+        <div className={styles.movie_detail_content}>
+          <div className={styles.moviebottom_detail_left}>
+            <h4 className={styles.sTitle}>REVIEWS</h4>
+            {props.reviews.results.length === 0 && (
+              <p>There are no reviews for this movie yet.</p>
+            )}
+            {props.reviews.results.map((review) => {
+              return (
+                <div key={review.id}>
+                  <h4 className={styles.sTitle}>
+                    Review By{" "}
+                    <span className={styles.authorname}>{review.author}</span>
+                  </h4>
+                  <MovieReviewText review={review} />
+                  <hr></hr>
+                </div>
+              );
+            })}
+          </div>
+          <div className={styles.moviebottom_detail_right}>
+            <h4 className={styles.sTitle}>TRAILERS</h4>
+            {trailer.length === 0 && (
+              <p>There are no trailers for this movie</p>
+            )}
+            {trailer.map((trailer, index) => {
+              return (
+                <div key={index}>
+                  <h4 className={styles.sTitle}>Watch {trailer.name}</h4>
+                  <iframe
+                    src={`https://www.youtube.com/embed/${trailer.key}`}
+                    title={trailer.name}
+                    width="560"
+                    height="315"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  ></iframe>
+                </div>
+              );
+            })}
+          </div>
         </div>
-        <div className={styles.moviebottom_detail_right}>
-          <h4 className={styles.sTitle}>TRAILERS</h4>
-          {trailer.length === 0 && <p>There are no trailers for this movie</p>}
-          {trailer.map((trailer, index) => {
-            return (
-              <div key={index}>
-                <h4 className={styles.sTitle}>Watch {trailer.name}</h4>
-                <iframe
-                  src={`https://www.youtube.com/embed/${trailer.key}`}
-                  title={trailer.name}
-                  width="560"
-                  height="315"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                ></iframe>
-              </div>
-            );
-          })}
-        </div>
+        <MovieCarouselView
+          title="Movies you might like"
+          movies={props.similar}
+          movieCount={props.similar.length}
+          onAddToWatchlist={handleAddToWatchlist}
+          type="movie"
+          parent="home"
+        />
       </div>
-    </div>
+    </>
   );
 };
-export default Movie;
+export default React.memo(Movie);
