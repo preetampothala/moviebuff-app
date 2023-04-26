@@ -1,5 +1,4 @@
 .sTitle {
-  margin-top: 1.5rem;
   margin-bottom: 0.7rem;
 }
 .img {
@@ -16,4 +15,7 @@
 }
 .streamingtype {
   margin-bottom: 0.7rem;
+}
+.streamingSection {
+  margin-top: 0.5rem;
 }

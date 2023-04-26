@@ -109,7 +109,7 @@ const Movie = (props) => {
           </div>
         </div>
 
-        {Object.keys(props.watchProviders.results).length > 0 && (
+        {Object.keys(props.watchProviders.results.US) && (
           <Streaming watchProviders={props.watchProviders} />
         )}
         <section>

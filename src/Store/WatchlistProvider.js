@@ -20,7 +20,6 @@ import {
 const defaultWatchlistsState = {};
 const watchlistReducer = (state, action) => {
   if (action.type === "FETCH") {
-    console.log(action.watchlists);
     return {
       ...action.watchlists,
     };

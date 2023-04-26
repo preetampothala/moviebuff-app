@@ -18,8 +18,6 @@ function Home() {
   const [modalMovie, setModalMovie] = useState([]);
   const API_KEY = "e418fdbca3c905f8b53cababd0a32c2f";
   const AuthCtx = React.useContext(AuthContext);
-  console.log(AuthCtx.userid);
-  console.log(AuthCtx.username);
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
