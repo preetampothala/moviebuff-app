@@ -13,7 +13,6 @@
   display: none;
 }
 
-/* Navigation arrows */
 .carousel_nav {
   display: flex;
   justify-content: space-between;
@@ -25,12 +24,25 @@
 }
 
 .carousel_nav_button {
-  background: none;
-  color: white;
-  border: none;
+  background: rgba(0, 0, 0, 0.507);
+  width: 2rem;
+  height: 2rem;
+  color: rgb(255, 255, 255);
+  border-radius: 5rem;
+  /* border: white 1px solid; */
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-
+.carousel_nav_button:hover {
+  background: rgba(0, 0, 0, 0.8);
+  color: #ff6d00;
+}
+.disabled {
+  opacity: 0;
+  cursor: not-allowed;
+}
 hr {
   border: 0.5px solid #535353;
 }

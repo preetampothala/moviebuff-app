@@ -8,40 +8,49 @@ function CastCarouselView(props) {
   const [showLeftButton, setShowLeftButton] = useState(false);
   const [showRightButton, setShowRightButton] = useState(true);
   const imgStyling = props.className ? props.className : styles.posterimg;
+
   const handleScroll = (direction) => {
     const container = scrollRef.current;
+
     const scrollDistance = container.offsetWidth;
     container.scrollTo({
-      left: container.scrollLeft + direction * scrollDistance,
-      right: container.scrollRight + direction * scrollDistance,
+      left: container.scrollLeft + (direction * scrollDistance) / 2,
+      // right: container.scrollRight + (direction * scrollDistance) / 2,
       behavior: "smooth",
     });
 
-    setShowLeftButton(container.scrollLeft > -10);
-    setShowRightButton(
-      container.scrollLeft + container.offsetWidth < container.scrollWidth
-    );
+    setTimeout(() => {
+      setShowLeftButton(container.scrollLeft > 0.5);
+      setShowRightButton(
+        container.scrollLeft + container.offsetWidth < container.scrollWidth
+      );
+    }, 300);
   };
+  const leftButtonStyles = showLeftButton
+    ? `${styles.carousel_nav_button}`
+    : `${styles.carousel_nav_button} ${styles.disabled}`;
+  const rightButtonStyles = showRightButton
+    ? `${styles.carousel_nav_button}`
+    : `${styles.carousel_nav_button} ${styles.disabled}`;
 
   return (
     <div className={styles.cast_side_scroll}>
-      {/* <hr className="solid"></hr> */}
       <div className={styles.carousel_container}>
         <div className={styles.carousel_nav}>
           <Button
-            className={`${styles.carousel_nav_button} ${styles.left_nav_button}`}
+            className={leftButtonStyles}
             onClick={() => handleScroll(-1)}
             disabled={!showLeftButton}
           >
-            <span className="material-icons">arrow_back_ios</span>
+            <span className="material-icons">chevron_left</span>
           </Button>
 
           <Button
-            className={`${styles.carousel_nav_button} ${styles.right_nav_button}`}
+            className={rightButtonStyles}
             onClick={() => handleScroll(1)}
             disabled={!showRightButton}
           >
-            <span className="material-icons">arrow_forward_ios</span>
+            <span className="material-icons">chevron_right</span>
           </Button>
         </div>
         <div className={styles.cast_posters} ref={scrollRef}>

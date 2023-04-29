@@ -19,14 +19,14 @@ function MovieCarouselView(props) {
   }, []);
   const handleScroll = (direction) => {
     const container = scrollRef.current;
-    console.log("offset", container.offsetWidth);
+
     const scrollDistance = container.offsetWidth;
     container.scrollTo({
       left: container.scrollLeft + (direction * scrollDistance) / 2,
       // right: container.scrollRight + (direction * scrollDistance) / 2,
       behavior: "smooth",
     });
-    console.log("scrollleft", container.scrollLeft);
+
     setTimeout(() => {
       setShowLeftButton(container.scrollLeft > 0.5);
       setShowRightButton(
@@ -54,6 +54,8 @@ function MovieCarouselView(props) {
             pwatchlist: props,
             parent: props.parent,
             watchlistId: props.watchlistId,
+            count: props.movieCount,
+            dateCreated: props.dateCreated,
           }}
           className={styles.link}
         >

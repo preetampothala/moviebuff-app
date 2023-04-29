@@ -4,7 +4,6 @@ import SearchResult from "../SearchResult/SearchResult";
 import { Link } from "react-router-dom";
 const MovieItems = (props) => {
   const handleButtonClick = (event) => {
-    console.log(event.target.value);
     props.onchangeHandler(event.target.value, props.movies);
   };
 
@@ -36,6 +35,8 @@ const MovieItems = (props) => {
                   watchlist: props.watchlist,
                   date: props.date,
                   params: props.params,
+                  count: props.count,
+                  dateCreated: props.dateCreated,
                 }}
               >
                 <SearchResult movie={movie}></SearchResult>

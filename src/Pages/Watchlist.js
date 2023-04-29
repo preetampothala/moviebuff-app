@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect, useContext } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import styles from "./Watchlist.module.css";
 import Banner from "../Components/UI/Banner";
 import Button from "../Components/UI/Button";
@@ -16,9 +16,11 @@ const Watchlist = () => {
   const [watchlist, setWatchlist] = useState({});
   const [showAlert, setShowAlert] = useState(false);
   const [alertText, setAlertText] = useState("");
-  const { pwatchlist, parent, watchlistId } = location.state || {};
-  // const { pwatchlist, parent, watchlistId } = location.state || {};
+  const { pwatchlist, parent, watchlistId, count, dateCreated } =
+    location.state || {};
 
+  // const { pwatchlist, parent, watchlistId } = location.state || {};
+  const [allMovies, setAllMovies] = useState([]);
   const [movies, setMovies] = useState([]);
   const [watchedMovies, setWatchedMovies] = useState([]);
   const onchangeHandler = (movieId) => {
@@ -86,6 +88,7 @@ const Watchlist = () => {
           movies = pwatchlist.movies;
           watchedMovies = [];
         }
+        setAllMovies(watchlistMovies);
         setMovies(movies);
         setWatchedMovies(watchedMovies);
       }
@@ -119,7 +122,7 @@ const Watchlist = () => {
         <div className={styles.watchlisttitle}>
           <div className={styles.watchlisttitle}>
             <h1 className={styles.titlename}>{watchlist.watchlistName}</h1>
-            <p>{`${movies.length} movies`}</p>
+            <p>{`${allMovies.length} movies`}</p>
           </div>
           {parent === "plists" && (
             <Button className={styles.watchlistbutton} onClick={onClickHandler}>
@@ -148,6 +151,8 @@ const Watchlist = () => {
             params={watchlistId}
             watchlist={watchlist}
             date={date}
+            count={count}
+            dateCreated={dateCreated}
           ></MovieItems>
         </section>
       )}
@@ -162,6 +167,8 @@ const Watchlist = () => {
             watchlist={watchlist}
             params={watchlistId}
             watched={"watched"}
+            count={count}
+            dateCreated={dateCreated}
           ></MovieItems>
         </section>
       )}

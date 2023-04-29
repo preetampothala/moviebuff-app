@@ -18,8 +18,8 @@ const WatchListMovieDetail = () => {
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const [mydayText, setMydayText] = useState("Add to My Day");
-  const [plannedText, setPlannedText] = useState("Add due date");
-  const { movie, watched, watchlist, date, params } = useLocation().state || {};
+  const [plannedText, setPlannedText] = useState("Plan to Watch");
+  const { movie, watched, watchlist } = useLocation().state || {};
   const starStyling = `fa fa-star ${styles.checked}`;
   const genres = movie ? getGenres(movie.genre_ids) : null;
   const movieTitle = movie
@@ -27,20 +27,17 @@ const WatchListMovieDetail = () => {
     : null;
   const navigate = useNavigate();
   useEffect(() => {
-    if (movie.myday !== undefined) {
-      console.log(movie.myday);
+    if (movie.myDay === true) {
       setMydayText("Added to My Day");
     }
-  }, [movie.myday]);
+  }, [movie.myDay]);
   useEffect(() => {
-    if (movie.planned !== undefined) {
-      console.log(movie.planned);
-      setPlannedText("Added due date");
+    if (movie.plannedDate !== undefined) {
+      setPlannedText(movie.plannedDate);
     }
-  }, [movie.planned]);
+  }, [movie.plannedDate]);
 
   const mydayHandler = (event) => {
-    console.log("myday");
     event.preventDefault();
     setMydayText("Added to My Day");
     setShowAlert(true);
@@ -49,7 +46,6 @@ const WatchListMovieDetail = () => {
     // addToMyDay(movie.id, watchlist.id, watchlist.userId);
   };
   const duedateHandler = (event) => {
-    console.log(event);
     event.preventDefault();
     setShowDatePicker(true);
   };
@@ -92,16 +88,12 @@ const WatchListMovieDetail = () => {
       <section>
         <div className={styles.watchlisttitle}>
           <h1 className={styles.titlename}>{watchlist.watchlistName}</h1>
-          <div className={styles.titletwo}>
-            {watchlist.movies.length > 0 ? (
-              <p>{watchlist.movies.length} movies</p>
-            ) : (
-              <p>0 {watchlist.movies.length} movie</p>
-            )}
-          </div>
+          {/* <div className={styles.titletwo}>
+            {count > 0 ? <p>{count} movies</p> : <p>0 {count} movies</p>}
+          </div> */}
         </div>
-        <p>{`Created ${date}`}</p>
-        <p className={styles.watchlist_description}>{watchlist.description}</p>
+        {/* <p>{`Created ${dateCreated}`}</p> */}
+        {/* <p className={styles.watchlist_description}>{watchlist.description}</p> */}
       </section>
 
       <section className={styles.watchlistmovie}>
@@ -123,30 +115,88 @@ const WatchListMovieDetail = () => {
               <h4 className={styles.sTitle}>OVERVIEW</h4>
               <p>{movie.overview}</p>
             </div>
-            {watched !== "watched" && (
+            {/* {watched !== "watched" && (
               <div className={styles.movie_detail_right}>
-                <button className={styles.button} onClick={mydayHandler}>
-                  <>
-                    <p>{mydayText}</p>
-                    <span className={`material-icons-outlined ${styles.icon}`}>
-                      light_mode
-                    </span>
-                  </>
-                </button>
-                <button className={styles.button} onClick={duedateHandler}>
-                  {selectedDate ? (
-                    <p>{formatDate(selectedDate)}</p>
-                  ) : (
+                {mydayText !== "Added to My Day" ? (
+                  <button className={styles.button} onClick={mydayHandler}>
                     <>
-                      <p>{plannedText}</p>
+                      <p>{mydayText}</p>
                       <span
                         className={`material-icons-outlined ${styles.icon}`}
                       >
-                        calendar_month
+                        light_mode
                       </span>
                     </>
+                  </button>
+                ) : (
+                  <p>{mydayText}</p>
+                )}
+                {plannedText === "Add due date" ? (
+                  <button className={styles.button} onClick={duedateHandler}>
+                    {selectedDate ? (
+                      <p>{formatDate(selectedDate)}</p>
+                    ) : (
+                      <>
+                        <p>{plannedText}</p>
+                        <span
+                          className={`material-icons-outlined ${styles.icon}`}
+                        >
+                          calendar_month
+                        </span>
+                      </>
+                    )}
+                  </button>
+                ) : (
+                  <p> Planned date: {plannedText}</p>
+                )}
+                {showDatePicker && (
+                  <ReactDatePicker
+                    selected={selectedDate}
+                    onChange={handleDateChange}
+                    minDate={new Date()}
+                    inline
+                  />
+                )}
+              </div>
+            )} */}
+            {watched !== "watched" && (
+              <div className={styles.movie_detail_right}>
+                {mydayText === "Add to My Day" &&
+                  plannedText === "Plan to Watch" && (
+                    <>
+                      <button className={styles.button} onClick={mydayHandler}>
+                        <>
+                          <p>{mydayText}</p>
+                          <span
+                            className={`material-icons-outlined ${styles.icon}`}
+                          >
+                            light_mode
+                          </span>
+                        </>
+                      </button>
+                      <button
+                        className={styles.button}
+                        onClick={duedateHandler}
+                      >
+                        {selectedDate !== null ? (
+                          <p>{formatDate(selectedDate)}</p>
+                        ) : (
+                          <>
+                            <p>{plannedText}</p>
+                            <span
+                              className={`material-icons-outlined ${styles.icon}`}
+                            >
+                              calendar_month
+                            </span>
+                          </>
+                        )}
+                      </button>
+                    </>
                   )}
-                </button>
+                {mydayText === "Added to My Day" && <p>{mydayText}</p>}
+                {plannedText !== "Plan to Watch" && (
+                  <p>Planned date: {plannedText}</p>
+                )}
                 {showDatePicker && (
                   <ReactDatePicker
                     selected={selectedDate}

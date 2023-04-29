@@ -25,7 +25,6 @@ const ModalOverlay = (props) => {
     } else {
       setText(event.target.value);
       setMode("existing");
-      console.log(mode);
     }
   };
   const createWatclistHandler = () => {
@@ -113,7 +112,6 @@ const ModalOverlay = (props) => {
 };
 
 const Modal = (props) => {
-  console.log(props);
   const watchlistCtx = useContext(WatchlistContext);
   const [watchlistNames, setWatchlistNames] = useState([]);
   const [watchlistdetail, setWatchlistdetail] = useState([]);

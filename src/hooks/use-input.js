@@ -16,7 +16,6 @@ const useInput = (validateValue) => {
 
   const reset = useCallback((fromwatchlist) => {
     if (fromwatchlist) {
-      console.log("fromwatchlist");
       setEnteredValue(fromwatchlist);
     } else {
       setEnteredValue("");

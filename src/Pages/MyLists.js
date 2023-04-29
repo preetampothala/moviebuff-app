@@ -5,16 +5,16 @@ import Banner from "../Components/UI/Banner";
 import styles from "./MyLists.module.css";
 import MovieCarouselView from "../Components/MovieCarouselView/MovieCarouselView";
 import { useNavigate } from "react-router-dom";
-import AuthContext from "../Store/auth-context";
+// import AuthContext from "../Store/auth-context";
 import WatchlistContext from "../Store/watchlist-context";
-import { fetchUserWatchlists } from "../Services/Watchlist.service";
+// import { fetchUserWatchlists } from "../Services/Watchlist.service";
 
 const MyLists = () => {
-  const authCtx = useContext(AuthContext);
+  // const authCtx = useContext(AuthContext);
   const watchlistCtx = useContext(WatchlistContext);
   const [showWatchlists, setShowWatchlists] = useState(false);
   const [watchlists, setWatchlists] = useState({});
-  const userId = authCtx.userid;
+  // const userId = authCtx.userid;
   const navigate = useNavigate();
   const onClickHandler = () => {
     navigate("/createwatchlist");
@@ -29,25 +29,32 @@ const MyLists = () => {
   // }, [authCtx.userid]);
 
   useEffect(() => {
-    // const watchlists = watchlistCtx.watchlists;
-    fetchUserWatchlists(userId).then((snapshot) => {
-      const data = snapshot.val();
-      if (data) {
-        const watchlists = {};
-        for (const key in data) {
-          const watchlist = {
-            id: key,
-            ...data[key],
-          };
-          watchlists[key] = watchlist;
-        }
-        setWatchlists(watchlists);
-        setShowWatchlists(true);
-      } else {
-        setWatchlists({});
-        setShowWatchlists(false);
-      }
-    });
+    const watchlists = watchlistCtx.watchlists;
+    if (watchlists) {
+      setWatchlists(watchlists);
+      setShowWatchlists(true);
+    } else {
+      setWatchlists({});
+      setShowWatchlists(false);
+    }
+    // fetchUserWatchlists(userId).then((snapshot) => {
+    //   const data = snapshot.val();
+    //   if (data) {
+    //     const watchlists = {};
+    //     for (const key in data) {
+    //       const watchlist = {
+    //         id: key,
+    //         ...data[key],
+    //       };
+    //       watchlists[key] = watchlist;
+    //     }
+    //     setWatchlists(watchlists);
+    //     setShowWatchlists(true);
+    //   } else {
+    //     setWatchlists({});
+    //     setShowWatchlists(false);
+    //   }
+    // });
 
     // if (userId) {
     //   setWatchlists(watchlists);
@@ -56,7 +63,7 @@ const MyLists = () => {
     //   setWatchlists({});
     //   setShowWatchlists(false);
     // }
-  }, [userId, watchlistCtx]);
+  }, [watchlistCtx]);
 
   return (
     <Fragment>

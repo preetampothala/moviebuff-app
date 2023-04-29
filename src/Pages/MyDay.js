@@ -3,7 +3,7 @@ import { dayName, monthName } from "../Utils/utils";
 import Banner from "../Components/UI/Banner";
 import styles from "./MyDay.module.css";
 import MovieItems from "../Components/MovieItems/MovieItems";
-import { fetchUserWatchlists } from "../Services/Watchlist.service";
+// import { fetchUserWatchlists } from "../Services/Watchlist.service";
 import AuthContext from "../Store/auth-context";
 import WatchlistContext from "../Store/watchlist-context";
 
@@ -19,51 +19,50 @@ const MyDay = () => {
   )} ${date.getFullYear()}`;
 
   useEffect(() => {
-    console.log("useEffect");
-    fetchUserWatchlists(authCtx.userid).then((snapshot) => {
-      const data = snapshot.val();
-      let watchlists = {};
-      if (data) {
-        watchlists = {};
-        for (const key in data) {
-          const watchlist = {
-            id: key,
-            ...data[key],
-          };
-          watchlists[key] = watchlist;
-          console.log(watchlists);
+    // fetchUserWatchlists(authCtx.userid).then((snapshot) => {
+    //   const data = snapshot.val();
+    //   let watchlists = {};
+    //   if (data) {
+    //     watchlists = {};
+    //     for (const key in data) {
+    //       const watchlist = {
+    //         id: key,
+    //         ...data[key],
+    //       };
+    //       watchlists[key] = watchlist;
+    //
+    //     }
+    //   }
+    //filter out movies from each watchlist with property myday
+    const watchlists = watchlistCtx.watchlists;
+    const mydayMovies = [];
+    for (const key in watchlists) {
+      const watchlist = watchlists[key];
+      for (const movieId in watchlist.movies) {
+        const movie = watchlist.movies[movieId];
+        if (movie.myDay === true) {
+          mydayMovies.push(movie);
         }
       }
-      //filter out movies from each watchlist with property myday
-      const mydayMovies = [];
-      for (const key in watchlists) {
-        const watchlist = watchlists[key];
-        for (const movieId in watchlist.movies) {
-          const movie = watchlist.movies[movieId];
-          if (movie.myDay === true) {
-            mydayMovies.push(movie);
-          }
-        }
-      }
-      let movies, watchedMovies;
-      if (mydayMovies.length > 0) {
-        movies = mydayMovies.filter((movie) => {
-          return movie.watched === false || movie.watched === undefined;
-        });
-        watchedMovies = mydayMovies.filter((movie) => {
-          return movie.watched === true;
-        });
-      } else {
-        movies = mydayMovies;
-        watchedMovies = [];
-      }
-      setmydayMovies(movies);
-      setWatched(watchedMovies);
-      console.log("useEffect end");
-    });
-  }, [authCtx.userid]);
+    }
+    let movies, watchedMovies;
+    if (mydayMovies.length > 0) {
+      movies = mydayMovies.filter((movie) => {
+        return movie.watched === false || movie.watched === undefined;
+      });
+      watchedMovies = mydayMovies.filter((movie) => {
+        return movie.watched === true;
+      });
+    } else {
+      movies = mydayMovies;
+      watchedMovies = [];
+    }
+    setmydayMovies(movies);
+    setWatched(watchedMovies);
+
+    // });
+  }, [authCtx.userid, watchlistCtx.watchlists]);
   const onchangeHandler = (movieId, movies) => {
-    console.log(movieId);
     setmydayMovies((previousMovies) =>
       previousMovies.filter((movie) => movie.id !== Number(movieId))
     );
@@ -76,7 +75,7 @@ const MyDay = () => {
     const temp = movie.map((movie) => movie.watchlistId);
     const iterator = temp.values();
     const watchlistId = iterator.next().value;
-    console.log(watchlistId);
+
     watchlistCtx.markMovAsWatched(movieId, watchlistId);
   };
 

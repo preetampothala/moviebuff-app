@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, set, get, update } from "firebase/database";
+import { getDatabase, ref, set, get, update, onValue } from "firebase/database";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDDterKQwdXqaIVJREc4Cfo3_HHV6yezkk",
@@ -15,9 +15,15 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-export const fetchUserWatchlists = async (userId) => {
+// export const fetchUserWatchlists = async (userId) => {
+//   const watchlistRef = ref(db, `users/${userId}/watchlists`);
+//   return get(watchlistRef);
+// };
+export const fetchUserWatchlists = (userId, onDataChange) => {
+  const db = getDatabase();
   const watchlistRef = ref(db, `users/${userId}/watchlists`);
-  return get(watchlistRef);
+  const unsubscribe = onValue(watchlistRef, onDataChange);
+  return unsubscribe;
 };
 export const fetchAllWatchlists = async () => {
   const db = getDatabase();
@@ -36,27 +42,9 @@ export const updateWatchlist = async (watchlist, watchlistId, userId) => {
   const watchlistRef = ref(db, `users/${userId}/watchlists/${watchlistId}`);
   return update(watchlistRef, watchlist);
 };
-// export const importWatchlist = async (watchlist, watchlistId, userId) => {
-//   const watchlistRef = ref(db, `users/${userId}/watchlists/${watchlistId}`);
-//   console.log(watchlist.movies);
-//   const movies = watchlist.movies.reduce((acc, movie) => {
-//     // add watchlistId to each movie
-//     acc[movie.id] = movie;
-//     movie.watched = false;
-//     return acc;
-//   }, {});
-//   watchlist.movies = movies;
-//   const newWatchlist = {
-//     ...watchlist,
-//     imported: true,
-//   };
-//   set(watchlistRef, newWatchlist);
 
-//   // return update(watchlistRef, { imported: true });
-// };
 export const importWatchlist = async (watchlist, watchlistId, userId) => {
   const watchlistRef = ref(db, `users/${userId}/watchlists/${watchlistId}`);
-  console.log(watchlist.movies);
 
   const movies = Object.entries(watchlist.movies).reduce(
     (acc, [key, movie]) => {
@@ -69,7 +57,7 @@ export const importWatchlist = async (watchlist, watchlistId, userId) => {
   );
 
   watchlist.movies = movies;
-  console.log(watchlist);
+
   const newWatchlist = {
     ...watchlist,
     imported: true,
@@ -85,7 +73,6 @@ export const deleteWatchlist = async (watchlistId, userId) => {
 };
 
 export const addMovieToWatchlist = async (movie, watchlistId, userId) => {
-  console.log(movie, watchlistId);
   const movieRef = ref(
     db,
     `users/${userId}/watchlists/${watchlistId}/movies/${movie.id}`
@@ -115,7 +102,6 @@ export const addToPlanned = async (
 };
 
 export const markMovieAsWatched = async (movieId, watchlistId, userId) => {
-  console.log("inside markMovieAsWatched");
   const watchedRef = ref(
     db,
     `users/${userId}/watchlists/${watchlistId}/movies/${movieId}/`

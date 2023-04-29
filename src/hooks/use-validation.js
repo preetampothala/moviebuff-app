@@ -11,7 +11,6 @@ const useValidate = (validateValue) => {
     (movie) => {
       //if the movie already exists in the addedmovies, don't add it again
       if (addedMovies.indexOf(movie) === -1) {
-        console.log("adding movie");
         setAddedMovies((prevMovies) => prevMovies.concat(movie));
       } else {
         console.log("movie already added");
@@ -27,7 +26,6 @@ const useValidate = (validateValue) => {
 
   const resetAddedMovies = useCallback((fromwatchlist) => {
     if (fromwatchlist) {
-      console.log("resetting added movies");
       setAddedMovies(fromwatchlist);
     } else {
       setAddedMovies([]);

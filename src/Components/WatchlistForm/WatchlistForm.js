@@ -86,7 +86,6 @@ const WatchlistForm = (props) => {
     setSearchTerm("");
   };
   const removeMovie = (movieId) => {
-    console.log("removing movie");
     removeMovieHandler(movieId);
   };
 
@@ -109,7 +108,7 @@ const WatchlistForm = (props) => {
         movie.watched = false;
         return acc;
       }, {});
-      console.log(authCtx.username);
+
       const watchlist = {
         userId: authCtx.userid,
         createdBy: authCtx.username,
@@ -130,7 +129,7 @@ const WatchlistForm = (props) => {
         acc[movie.id] = movie;
         return acc;
       }, {});
-      console.log(authCtx.username);
+
       const watchlist = {
         userId: authCtx.userid,
         createdBy: authCtx.username,
@@ -141,7 +140,7 @@ const WatchlistForm = (props) => {
         dateCreated: watchlistData.dateCreated,
       };
       const editedwatchlistId = watchlistData.watchlistId;
-      console.log(watchlist, editedwatchlistId, authCtx.userid);
+
       // updateWatchlist(watchlist, editedwatchlistId, authCtx.userid);
       watchlistCtx.updatecurrentWatchlist(watchlist, editedwatchlistId);
     }

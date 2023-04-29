@@ -3,7 +3,7 @@ import styles from "./MyPlanned.module.css";
 // import { plannedMovies } from "../Utils/utils";
 import MovieItems from "../Components/MovieItems/MovieItems";
 import Banner from "../Components/UI/Banner";
-import { fetchUserWatchlists } from "../Services/Watchlist.service";
+// import { fetchUserWatchlists } from "../Services/Watchlist.service";
 import AuthContext from "../Store/auth-context";
 import WatchlistContext from "../Store/watchlist-context";
 
@@ -32,47 +32,48 @@ const MyPlanned = () => {
   };
 
   useEffect(() => {
-    fetchUserWatchlists(authCtx.userid).then((snapshot) => {
-      const data = snapshot.val();
-      let watchlists = {};
-      if (data) {
-        watchlists = {};
-        for (const key in data) {
-          const watchlist = {
-            id: key,
-            ...data[key],
-          };
-          watchlists[key] = watchlist;
+    const watchlists = watchlistCtx.watchlists;
+    // fetchUserWatchlists(authCtx.userid).then((snapshot) => {
+    //   const data = snapshot.val();
+    //   let watchlists = {};
+    //   if (data) {
+    //     watchlists = {};
+    //     for (const key in data) {
+    //       const watchlist = {
+    //         id: key,
+    //         ...data[key],
+    //       };
+    //       watchlists[key] = watchlist;
+    //     }
+    //   }
+    //filter out movies from each watchlist with property myday
+    const myPlannedMovies = [];
+    for (const key in watchlists) {
+      const watchlist = watchlists[key];
+      for (const movieId in watchlist.movies) {
+        const movie = watchlist.movies[movieId];
+        if (movie.plannedDate) {
+          myPlannedMovies.push(movie);
         }
       }
-      //filter out movies from each watchlist with property myday
-      const myPlannedMovies = [];
-      for (const key in watchlists) {
-        const watchlist = watchlists[key];
-        for (const movieId in watchlist.movies) {
-          const movie = watchlist.movies[movieId];
-          if (movie.plannedDate) {
-            myPlannedMovies.push(movie);
-          }
-        }
-      }
-      let movies, watchedMovies;
-      if (myPlannedMovies.length > 0) {
-        movies = myPlannedMovies.filter((movie) => {
-          return movie.watched === false || movie.watched === undefined;
-        });
-        watchedMovies = myPlannedMovies.filter((movie) => {
-          return movie.watched === true;
-        });
-      } else {
-        movies = myPlannedMovies;
-        watchedMovies = [];
-      }
+    }
+    let movies, watchedMovies;
+    if (myPlannedMovies.length > 0) {
+      movies = myPlannedMovies.filter((movie) => {
+        return movie.watched === false || movie.watched === undefined;
+      });
+      watchedMovies = myPlannedMovies.filter((movie) => {
+        return movie.watched === true;
+      });
+    } else {
+      movies = myPlannedMovies;
+      watchedMovies = [];
+    }
 
-      setWatched(watchedMovies);
-      setMovies(movies);
-    });
-  }, [authCtx.userid]);
+    setWatched(watchedMovies);
+    setMovies(movies);
+    // });
+  }, [authCtx.userid, watchlistCtx.watchlists]);
 
   const groupMoviesByWatchDate = (movies) => {
     return movies.reduce((acc, cur) => {

@@ -3,13 +3,9 @@ import { useLocation } from "react-router-dom";
 import WatchlistForm from "../Components/WatchlistForm/WatchlistForm";
 
 const EditWatchlist = () => {
-  console.log("in edit watchlist");
-  //   const authCtx = useContext(AuthContext);
-  //   const params = useParams();
-  //   const watchlistId = params.watchlistId;
   const location = useLocation();
   const { watchlist } = location.state || {};
-  console.log("watchlist", watchlist);
+
   const [watchlistData, setWatchlistData] = useState({});
   useEffect(() => {
     setWatchlistData(watchlist);

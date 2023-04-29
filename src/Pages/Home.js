@@ -83,7 +83,6 @@ function Home() {
   const handleAddToWatchlist = (movie) => {
     setShowModal(true);
     setModalMovie(movie);
-    // console.log(`Added ${movie.id} to watchlist!`);
   };
   const modalonCloseHandler = () => {
     setShowModal(false);
@@ -125,7 +124,7 @@ function Home() {
           parent="home"
         />
         <MovieCarouselView
-          title="Popular Movies"
+          title="Trending Movies"
           movies={trendingMovies}
           movieCount={trendingMovies.length}
           onAddToWatchlist={handleAddToWatchlist}

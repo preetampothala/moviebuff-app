@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import MovieBackdrop from "../MovieBackdrop/MovieBackdrop";
 import styles from "./Movie.module.css";
 import CastCarouselView from "../CastCarousel/CastCarouselView";
@@ -18,7 +18,9 @@ const Movie = (props) => {
     const mins = minutes % 60;
     return `${hours}h ${mins}min`;
   }
-  const director = props.crew.filter((crew) => crew.job === "Director")[0].name;
+
+  const directorObject = props.crew.find((crew) => crew.job === "Director");
+  const director = directorObject ? directorObject.name : "Unknown";
   let language = props.movie.original_language.toUpperCase();
   const movieTitle = `${props.movie.title} (${props.movie.release_date.slice(
     0,
@@ -73,6 +75,10 @@ const Movie = (props) => {
   const modalonCloseHandler = () => {
     setShowModal(false);
   };
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <>
       {showModal && (
@@ -109,7 +115,7 @@ const Movie = (props) => {
           </div>
         </div>
 
-        {Object.keys(props.watchProviders.results.US) && (
+        {props.watchProviders.results.US && (
           <Streaming watchProviders={props.watchProviders} />
         )}
         <section>
