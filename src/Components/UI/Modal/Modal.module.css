@@ -107,6 +107,7 @@
   display: grid;
   grid-template-areas: "select";
   align-items: center;
+  margin-bottom: 0.5rem;
 }
 .select,
 .divselect:after {

@@ -4,8 +4,6 @@ import styles from "./Modal.module.css";
 import Button from "../Button";
 import ReactDOM from "react-dom";
 import WatchlistContext from "../../../Store/watchlist-context";
-import AuthContext from "../../../Store/auth-context";
-import { fetchUserWatchlists } from "../../../Services/Watchlist.service";
 
 const Backdrop = (props) => {
   return <div className={styles.backdrop} onClick={props.onClose}></div>;
@@ -23,7 +21,11 @@ const ModalOverlay = (props) => {
       setText("");
       setMode("create");
     } else {
-      setText(event.target.value);
+      const watchlists = watchlistCtx.watchlists;
+      const watchlistName = watchlists[event.target.value].watchlistName;
+
+      console.log(watchlistName);
+      setText(watchlistName);
       setMode("existing");
     }
   };
@@ -84,7 +86,7 @@ const ModalOverlay = (props) => {
           </div>
           {text && (
             <p className={styles.p}>
-              You are adding this movie to {text} watchlist
+              {`You are adding this movie to "${text}" watchlist`}
             </p>
           )}
 
@@ -116,38 +118,60 @@ const Modal = (props) => {
   const [watchlistNames, setWatchlistNames] = useState([]);
   const [watchlistdetail, setWatchlistdetail] = useState([]);
   const [watchlistIds, setWatchlistIds] = useState([]);
-  const authCtx = useContext(AuthContext);
-  const userId = authCtx.userid;
+
   useEffect(() => {
     // fetch current user watchlist names to use in select dropdown
-    fetchUserWatchlists(userId).then((snapshot) => {
-      const data = snapshot.val();
+    const watchlists = watchlistCtx.watchlists;
+    const watchlistNames = [];
+    for (const id in watchlists) {
+      const watchlistName = watchlists[id].watchlistName;
+      watchlistNames.push(watchlistName);
+    }
+    const watchlistIds = [];
+    for (const id in watchlists) {
+      const watchlistId = id;
+      watchlistIds.push(watchlistId);
+    }
+    const watchlistdetail = [];
+    for (const id in watchlists) {
+      const watchlistId = id;
+      const watchlistName = watchlists[id].watchlistName;
+      watchlistdetail.push({ watchlistId, watchlistName });
+    }
+    setWatchlistIds(watchlistIds);
+    setWatchlistdetail(watchlistdetail);
+    setWatchlistNames(watchlistNames);
+  }, [watchlistCtx]);
+  // useEffect(() => {
 
-      if (data) {
-        const watchlistIds = [];
-        for (const id in data) {
-          const watchlistId = id;
-          watchlistIds.push(watchlistId);
-        }
-        const watchlistNames = [];
-        for (const id in data) {
-          const watchlistName = data[id].watchlistName;
-          watchlistNames.push(watchlistName);
-        }
-        const watchlistdetail = [];
-        for (const id in data) {
-          const watchlistId = id;
-          const watchlistName = data[id].watchlistName;
-          watchlistdetail.push({ watchlistId, watchlistName });
-        }
-        setWatchlistIds(watchlistIds);
-        setWatchlistNames(watchlistNames);
-        setWatchlistdetail(watchlistdetail);
-      } else {
-        setWatchlistNames([]);
-      }
-    });
-  }, [userId, watchlistCtx]);
+  //   fetchUserWatchlists(userId).then((snapshot) => {
+  //     const data = snapshot.val();
+
+  //     if (data) {
+  //       const watchlistIds = [];
+  //       for (const id in data) {
+  //         const watchlistId = id;
+  //         watchlistIds.push(watchlistId);
+  //       }
+  //       const watchlistNames = [];
+  //       for (const id in data) {
+  //         const watchlistName = data[id].watchlistName;
+  //         watchlistNames.push(watchlistName);
+  //       }
+  //       const watchlistdetail = [];
+  //       for (const id in data) {
+  //         const watchlistId = id;
+  //         const watchlistName = data[id].watchlistName;
+  //         watchlistdetail.push({ watchlistId, watchlistName });
+  //       }
+  //       setWatchlistIds(watchlistIds);
+  //       setWatchlistNames(watchlistNames);
+  //       setWatchlistdetail(watchlistdetail);
+  //     } else {
+  //       setWatchlistNames([]);
+  //     }
+  //   });
+  // }, [userId, watchlistCtx]);
 
   return (
     <>
