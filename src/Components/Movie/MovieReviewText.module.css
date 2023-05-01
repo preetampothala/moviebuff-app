@@ -2,9 +2,7 @@
   overflow: show;
   display: -webkit-box;
   margin-bottom: 1rem;
-  /* Line height should be specified for proper truncation */
 }
-
 .truncated {
   overflow: hidden;
   display: -webkit-box;
@@ -16,13 +14,8 @@
   margin-bottom: 1rem;
   cursor: pointer;
   color: white;
+  font: inherit;
 }
 .button:hover {
   color: #ff6d00;
 }
-/* .buttonshow {
-  color: #ff6d00;
-}
-.buttonhide {
-  color: aliceblue;
-} */
